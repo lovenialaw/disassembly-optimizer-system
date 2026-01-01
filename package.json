@@ -1,0 +1,15 @@
+{
+  "name": "Gearbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "import No.des.js",
+  "scripts": {
+    "test": "echo \"Error: No.test specified\" && exit 1"
+  },
+  "Keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "neo4j-driver": "^6.0.1"
+  }
+}

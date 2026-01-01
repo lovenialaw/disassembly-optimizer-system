@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gearbox Disassembly Optimizer</title>
+    <!-- API Configuration: Uncomment and set your backend URL for production -->
+    <!-- <script>window.API_BASE_URL = 'https://your-backend-url.herokuapp.com/api';</script> -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/vis-network@latest/standalone/umd/vis-network.min.js"></script>
+    <!-- OrbitControls for 3D model interaction -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🔧 Gearbox Disassembly Optimizer</h1>
+                <p class="subtitle">AI-Powered Optimal Disassembly Sequence Finder</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel: 3D Viewer and Knowledge Graph -->
+            <div class="left-panel">
+                <!-- 3D Model Viewer -->
+                <div class="viewer-section">
+                    <h2>3D Model Viewer</h2>
+                    <div class="viewer-controls">
+                        <select id="model-selector" class="select-input">
+                            <option value="">Select Model...</option>
+                            <option value="gearbox">Gearbox</option>
+                            <option value="kettle">Kettle</option>
+                        </select>
+                    </div>
+                    <div id="model-viewer" class="model-viewer"></div>
+                </div>
+
+                <!-- Knowledge Graph -->
+                <div class="graph-section">
+                    <h2>Knowledge Graph</h2>
+                    <div id="knowledge-graph" class="knowledge-graph"></div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Controls and Results -->
+            <div class="right-panel">
+                <!-- Component Selection -->
+                <div class="control-section">
+                    <h2>Component Selection</h2>
+                    <div class="component-selector">
+                        <label for="target-component">Target Component to Disassemble:</label>
+                        <select id="target-component" class="select-input">
+                            <option value="">Select target component...</option>
+                        </select>
+                    </div>
+                    <div class="selected-components">
+                        <label>Selected Components (Click to remove):</label>
+                        <div id="selected-components-list" class="components-list"></div>
+                    </div>
+                </div>
+
+                <!-- Parameter Input -->
+                <div class="control-section">
+                    <h2>Disassembly Parameters</h2>
+                    <div id="parameters-container" class="parameters-container">
+                        <p class="info-text">Select components first to configure parameters</p>
+                    </div>
+                </div>
+
+                <!-- Algorithm Selection -->
+                <div class="control-section">
+                    <h2>Algorithm Selection</h2>
+                    <div class="algorithm-selector">
+                        <label>
+                            <input type="radio" name="algorithm" value="dijkstra" checked>
+                            Dijkstra's Algorithm
+                        </label>
+                        <label>
+                            <input type="radio" name="algorithm" value="genetic">
+                            Genetic Algorithm
+                        </label>
+                    </div>
+                    <div id="genetic-params" class="genetic-params" style="display: none;">
+                        <label>Population Size: <input type="number" id="pop-size" value="20" min="2" max="100"></label>
+                        <label>Generations: <input type="number" id="generations" value="30" min="1" max="200"></label>
+                        <label>Mutation Rate: <input type="number" id="mutation-rate" value="0.2" min="0" max="1"
+                                step="0.1"></label>
+                        <label>Crossover Rate: <input type="number" id="crossover-rate" value="0.7" min="0" max="1"
+                                step="0.1"></label>
+                    </div>
+                    <button id="run-algorithm" class="btn btn-primary">Run Algorithm</button>
+                </div>
+
+                <!-- Results -->
+                <div class="control-section">
+                    <h2>Results</h2>
+                    <div id="results-container" class="results-container">
+                        <p class="info-text">Run algorithm to see results</p>
+                    </div>
+                </div>
+
+                <!-- Animation Controls -->
+                <div class="control-section" id="animation-controls" style="display: none;">
+                    <h2>Animation</h2>
+                    <div class="animation-buttons">
+                        <button id="play-animation" class="btn btn-secondary">Play</button>
+                        <button id="pause-animation" class="btn btn-secondary">Pause</button>
+                        <button id="reset-animation" class="btn btn-secondary">Reset</button>
+                    </div>
+                    <div class="animation-progress">
+                        <label>Step: <span id="animation-step">0</span> / <span id="animation-total">0</span></label>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
