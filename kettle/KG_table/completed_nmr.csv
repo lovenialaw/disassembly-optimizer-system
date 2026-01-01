@@ -1,0 +1,155 @@
+n,r,m
+(:Component {id: BaseConnector}),[:ATTACHED_TO],(:Component {id: BaseCover})
+(:Component {id: BaseConnector}),[:BLOCKED_BY],(:Component {id: BaseCover})
+(:Component {id: BaseConnector}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:High, value: High})"
+(:Component {id: BaseConnector}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:mixed material, value: mixed material})"
+(:Component {id: BaseConnector}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:High, value: High})"
+(:Component {id: BaseConnector}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:Medium, value: Medium})"
+(:Component {id: BaseConnector}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: BaseCover}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: BaseCover}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:low, value: low})"
+(:Component {id: BaseCover}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: BaseCover}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:Medium, value: Medium})"
+(:Component {id: BaseCover}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: BottomCover}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: BottomCover}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:low, value: low})"
+(:Component {id: BottomCover}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: BottomCover}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:Medium, value: Medium})"
+(:Component {id: BottomCover}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: FilterHolder}),[:ATTACHED_TO],(:Component {id: LidRing})
+(:Component {id: FilterHolder}),[:BLOCKED_BY],(:Component {id: LidRing})
+(:Component {id: FilterHolder}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: FilterHolder}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:High, value: High})"
+(:Component {id: FilterHolder}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: FilterHolder}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:Medium, value: Medium})"
+(:Component {id: FilterHolder}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: Handle}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: Handle}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:low, value: low})"
+(:Component {id: Handle}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: Handle}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: Handle}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: HandleSwitch}),[:ATTACHED_TO],(:Component {id: Handle})
+(:Component {id: HandleSwitch}),[:BLOCKED_BY],(:Component {id: Handle})
+(:Component {id: HandleSwitch}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:Medium, value: Medium})"
+(:Component {id: HandleSwitch}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:Medium, value: Medium})"
+(:Component {id: HandleSwitch}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:Medium, value: Medium})"
+(:Component {id: HandleSwitch}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: HandleSwitch}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: LEDWire}),[:ATTACHED_TO],(:Component {id: Switch})
+(:Component {id: LEDWire}),[:BLOCKED_BY],(:Component {id: RubberFilling})
+(:Component {id: LEDWire}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:Medium, value: Medium})"
+(:Component {id: LEDWire}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:Medium, value: Medium})"
+(:Component {id: LEDWire}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:Medium, value: Medium})"
+(:Component {id: LEDWire}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: LEDWire}),[:HAS_FUNCTION],"(:Function {id: Function:power, value: power})"
+(:Component {id: LidRing}),[:BLOCKED_BY],(:Component {id: Lid})
+(:Component {id: LidRing}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: LidRing}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:High, value: High})"
+(:Component {id: LidRing}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: LidRing}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: LidRing}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: Lid}),[:ATTACHED_TO],(:Component {id: Handle})
+(:Component {id: PlasticRing}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: PlasticRing}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:low, value: low})"
+(:Component {id: PlasticRing}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: PlasticRing}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: PlasticRing}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: RedCasing}),[:ATTACHED_TO],(:Component {id: RubberFilling})
+(:Component {id: RedCasing}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: RedCasing}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:High, value: High})"
+(:Component {id: RedCasing}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: RedCasing}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: RedCasing}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: RubberFilling}),[:ATTACHED_TO],(:Component {id: LEDWire})
+(:Component {id: RubberFilling}),[:BLOCKED_BY],(:Component {id: RedCasing})
+(:Component {id: RubberFilling}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: RubberFilling}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:very High, value: very High})"
+(:Component {id: RubberFilling}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:low, value: low})"
+(:Component {id: RubberFilling}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:low, value: low})"
+(:Component {id: RubberFilling}),[:HAS_FUNCTION],"(:Function {id: Function:structural, value: structural})"
+(:Component {id: Switch}),[:ATTACHED_TO],(:Component {id: Thermostat})
+(:Component {id: Switch}),[:BLOCKED_BY],(:Component {id: BottomCover})
+(:Component {id: Switch}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:low, value: low})"
+(:Component {id: Switch}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:Medium, value: Medium})"
+(:Component {id: Switch}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:Medium, value: Medium})"
+(:Component {id: Switch}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:High, value: High})"
+(:Component {id: Switch}),[:HAS_FUNCTION],"(:Function {id: Function:power, value: power})"
+(:Component {id: Thermostat}),[:ATTACHED_TO],(:Component {id: HeatingModule})
+(:Component {id: Thermostat}),[:BLOCKED_BY],(:Component {id: BottomCover})
+(:Component {id: Thermostat}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:High, value: High})"
+(:Component {id: Thermostat}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:Medium, value: Medium})"
+(:Component {id: Thermostat}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:High, value: High})"
+(:Component {id: Thermostat}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:High, value: High})"
+(:Component {id: Thermostat}),[:HAS_FUNCTION],"(:Function {id: Function:Heat, value: Heat})"
+(:Component {id: Wires}),[:ATTACHED_TO],(:Component {id: BaseConnector})
+(:Component {id: Wires}),[:BLOCKED_BY],(:Component {id: BaseCover})
+(:Component {id: Wires}),[:HAS_SAFETY_RISK],"(:SafetyRisk {id: SafetyRisk:Medium, value: Medium})"
+(:Component {id: Wires}),[:HAS_RECYCLABILITY],"(:Recyclability {id: Recyclability:mixed material (High), value: mixed material (High)})"
+(:Component {id: Wires}),[:HAS_IMPORTANCE],"(:Importance {id: Importance:High, value: High})"
+(:Component {id: Wires}),[:HAS_DISASSEMBLY_COST],"(:DisassemblyCost {id: DisassemblyCost:High, value: High})"
+(:Component {id: Wires}),[:HAS_FUNCTION],"(:Function {id: Function:power, value: power})"
+(:Component {id: HeatingModule}),null,null
+"(:SafetyRisk {id: SafetyRisk:High, value: High})",null,null
+"(:SafetyRisk {id: SafetyRisk:low, value: low})",null,null
+"(:SafetyRisk {id: SafetyRisk:Medium, value: Medium})",null,null
+"(:Recyclability {id: Recyclability:mixed material, value: mixed material})",null,null
+"(:Recyclability {id: Recyclability:low, value: low})",null,null
+"(:Recyclability {id: Recyclability:High, value: High})",null,null
+"(:Recyclability {id: Recyclability:Medium, value: Medium})",null,null
+"(:Recyclability {id: Recyclability:very High, value: very High})",null,null
+"(:Recyclability {id: Recyclability:mixed material (High), value: mixed material (High)})",null,null
+"(:Importance {id: Importance:High, value: High})",null,null
+"(:Importance {id: Importance:low, value: low})",null,null
+"(:Importance {id: Importance:Medium, value: Medium})",null,null
+"(:DisassemblyCost {id: DisassemblyCost:Medium, value: Medium})",null,null
+"(:DisassemblyCost {id: DisassemblyCost:low, value: low})",null,null
+"(:DisassemblyCost {id: DisassemblyCost:High, value: High})",null,null
+"(:Function {id: Function:structural, value: structural})",null,null
+"(:Function {id: Function:power, value: power})",null,null
+"(:Function {id: Function:Heat, value: Heat})",null,null
+"(:Action {id: RemoveBaseConnector, target: BaseConnector})",[:REMOVES],(:Component {id: BaseConnector})
+"(:Action {id: RemoveBaseConnector, target: BaseConnector})",[:REQUIRES_TOOL],"(:Tool {name: Philips screwdriver, id: Tool:Philips screwdriver})"
+"(:Action {id: RemoveBaseConnector, target: BaseConnector})",[:STEP_BEFORE],"(:Action {id: RemoveWires, target: Wires})"
+"(:Action {id: RemoveBaseCover, target: BaseCover})",[:REMOVES],(:Component {id: BaseCover})
+"(:Action {id: RemoveBaseCover, target: BaseCover})",[:REQUIRES_TOOL],"(:Tool {name: Philips screwdriver, id: Tool:Philips screwdriver})"
+"(:Action {id: RemoveBaseCover, target: BaseCover})",[:STEP_BEFORE],"(:Action {id: RemoveBaseConnector, target: BaseConnector})"
+"(:Action {id: RemoveBottomCover, target: BottomCover})",[:REMOVES],(:Component {id: BottomCover})
+"(:Action {id: RemoveBottomCover, target: BottomCover})",[:REQUIRES_TOOL],"(:Tool {name: Philips screwdriver, id: Tool:Philips screwdriver})"
+"(:Action {id: RemoveBottomCover, target: BottomCover})",[:STEP_BEFORE],"(:Action {id: RemoveRedCasing, target: RedCasing})"
+"(:Action {id: RemoveFilterHolder, target: FilterHolder})",[:REMOVES],(:Component {id: FilterHolder})
+"(:Action {id: RemoveFilterHolder, target: FilterHolder})",[:REQUIRES_TOOL],"(:Tool {name: Philips screwdriver, id: Tool:Philips screwdriver})"
+"(:Action {id: RemoveFilterHolder, target: FilterHolder})",[:STEP_BEFORE],"(:Action {id: RemoveHandle, target: Handle})"
+"(:Action {id: RemoveHandle, target: Handle})",[:REMOVES],(:Component {id: Handle})
+"(:Action {id: RemoveHandle, target: Handle})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveHandle, target: Handle})",[:STEP_BEFORE],"(:Action {id: RemoveHandleSwitch, target: HandleSwitch})"
+"(:Action {id: RemoveHandleSwitch, target: HandleSwitch})",[:REMOVES],(:Component {id: HandleSwitch})
+"(:Action {id: RemoveHandleSwitch, target: HandleSwitch})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveHandleSwitch, target: HandleSwitch})",[:STEP_BEFORE],"(:Action {id: RemovePlasticRing, target: PlasticRing})"
+"(:Action {id: RemoveLEDWire, target: LEDWire})",[:REMOVES],(:Component {id: LEDWire})
+"(:Action {id: RemoveLEDWire, target: LEDWire})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveLEDWire, target: LEDWire})",[:STEP_BEFORE],"(:Action {id: RemoveSwitch, target: Switch})"
+"(:Action {id: RemoveLidRing, target: LidRing})",[:REMOVES],(:Component {id: LidRing})
+"(:Action {id: RemoveLidRing, target: LidRing})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveLidRing, target: LidRing})",[:STEP_BEFORE],"(:Action {id: RemoveFilterHolder, target: FilterHolder})"
+"(:Action {id: RemovePlasticRing, target: PlasticRing})",[:REMOVES],(:Component {id: PlasticRing})
+"(:Action {id: RemovePlasticRing, target: PlasticRing})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemovePlasticRing, target: PlasticRing})",[:STEP_BEFORE],"(:Action {id: RemoveBottomCover, target: BottomCover})"
+"(:Action {id: RemoveRedCasing, target: RedCasing})",[:REMOVES],(:Component {id: RedCasing})
+"(:Action {id: RemoveRedCasing, target: RedCasing})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveRedCasing, target: RedCasing})",[:STEP_BEFORE],"(:Action {id: RemoveRubberFilling, target: RubberFilling})"
+"(:Action {id: RemoveRubberFilling, target: RubberFilling})",[:REMOVES],(:Component {id: RubberFilling})
+"(:Action {id: RemoveRubberFilling, target: RubberFilling})",[:REQUIRES_TOOL],"(:Tool {name: pull, id: Tool:pull})"
+"(:Action {id: RemoveRubberFilling, target: RubberFilling})",[:STEP_BEFORE],"(:Action {id: RemoveLEDWire, target: LEDWire})"
+"(:Action {id: RemoveSwitch, target: Switch})",[:REMOVES],(:Component {id: Switch})
+"(:Action {id: RemoveSwitch, target: Switch})",[:REQUIRES_TOOL],"(:Tool {name: wire cutter, id: Tool:wire cutter})"
+"(:Action {id: RemoveSwitch, target: Switch})",[:STEP_BEFORE],"(:Action {id: RemoveThermostat, target: Thermostat})"
+"(:Action {id: RemoveThermostat, target: Thermostat})",[:REMOVES],(:Component {id: Thermostat})
+"(:Action {id: RemoveThermostat, target: Thermostat})",[:REQUIRES_TOOL],"(:Tool {name: pull / wire cutter, id: Tool:pull / wire cutter})"
+"(:Action {id: RemoveWires, target: Wires})",[:REMOVES],(:Component {id: Wires})
+"(:Action {id: RemoveWires, target: Wires})",[:REQUIRES_TOOL],"(:Tool {name: flat screwdriver, id: Tool:flat screwdriver})"
+"(:Action {id: RemoveWires, target: Wires})",[:STEP_BEFORE],"(:Action {id: RemoveLidRing, target: LidRing})"
+"(:Tool {name: Philips screwdriver, id: Tool:Philips screwdriver})",null,null
+"(:Tool {name: pull, id: Tool:pull})",null,null
+"(:Tool {name: wire cutter, id: Tool:wire cutter})",null,null
+"(:Tool {name: pull / wire cutter, id: Tool:pull / wire cutter})",null,null
+"(:Tool {name: flat screwdriver, id: Tool:flat screwdriver})",null,null

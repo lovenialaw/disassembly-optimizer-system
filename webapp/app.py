@@ -26,85 +26,47 @@ metadata = None
 G_topology = None
 
 
-def build_graph_from_metadata(metadata_path):
-    """Build topology graph from metadata JSON file, following Neo4j logic.
-    
-    For disassembly graph, edges represent removal order: A -> B means A must be removed before B.
-    
-    Relationships from metadata:
-    - blocked_by: If component A has blocked_by: [B], then B -> A (B must be removed before A)
-    - attached_to: If component A has attached_to: "B", then B -> A (B must be removed before A)
-    """
+def build_graph_from_csv(csv_path):
+    """Build topology graph from CSV file (gear_edges.csv or edges.csv)"""
     G = nx.DiGraph()
 
     try:
-        with open(metadata_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+        edges_df = pd.read_csv(csv_path)
+        edges_df["from"] = edges_df["from"].astype(str).str.strip()
+        edges_df["to"] = edges_df["to"].astype(str).str.strip()
 
-        # Add all nodes first
-        for item in data:
-            component_name = item.get('name', '').strip()
-            if component_name:
-                G.add_node(component_name)
-
-        # Process relationships
-        for item in data:
-            component_name = item.get('name', '').strip()
-            if not component_name:
-                continue
-
-            properties = item.get('properties', {})
-
-            # Process blocked_by relationships
-            # If A has blocked_by: [B], then B -> A (B blocks A, so B must be removed first)
-            # Following Neo4j logic: (A)-[:blocked_by]->(B) means B must be removed before A
-            blocked_by = properties.get('blocked_by', [])
-            if isinstance(blocked_by, list):
-                for blocker in blocked_by:
-                    # Handle nested arrays (e.g., [[], "Component"])
-                    if isinstance(blocker, list):
-                        blocker = blocker[0] if blocker else None
-                    if isinstance(blocker, str) and blocker.strip():
-                        blocker = blocker.strip()
-                        # Skip self-loops and empty strings
-                        if blocker and blocker != component_name:
-                            G.add_edge(blocker, component_name)
-
-            # Process attached_to relationships
-            # If A has attached_to: "B", then B -> A (B is attached to A, so B must be removed first)
-            attached_to = properties.get('attached_to')
-            if isinstance(attached_to, str) and attached_to.strip():
-                attached_to = attached_to.strip()
-                # Skip self-loops
-                if attached_to != component_name:
-                    G.add_edge(attached_to, component_name)
+        for _, row in edges_df.iterrows():
+            from_node = row["from"]
+            to_node = row["to"]
+            if from_node and to_node:  # Skip empty values
+                G.add_edge(from_node, to_node)
 
         return G
     except Exception as e:
-        print(f"Error loading metadata {metadata_path}: {str(e)}")
+        print(f"Error loading CSV {csv_path}: {str(e)}")
         import traceback
         traceback.print_exc()
         return None
 
 
 def load_model(model_name='gearbox'):
-    """Load graph from metadata JSON file for the specified model"""
+    """Load graph from CSV file for the specified model"""
     global G_topology, current_model
 
-    # Map model names to metadata files
-    metadata_files = {
-        'gearbox': 'gearbox_metadata.json',
-        'kettle': 'kettle_metadata.json'
+    # Map model names to CSV files
+    csv_files = {
+        'gearbox': 'gear_edges.csv',
+        'kettle': 'kettle_edges.csv'
     }
 
-    if model_name not in metadata_files:
+    if model_name not in csv_files:
         return False
 
-    metadata_file = metadata_files[model_name]
-    metadata_path = os.path.join(_script_dir, metadata_file)
+    csv_file = csv_files[model_name]
+    csv_path = os.path.join(_script_dir, csv_file)
 
     try:
-        G_topology = build_graph_from_metadata(metadata_path)
+        G_topology = build_graph_from_csv(csv_path)
         if G_topology is None:
             return False
         current_model = model_name

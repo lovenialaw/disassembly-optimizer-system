@@ -575,7 +575,7 @@ function initialize3DViewer() {
     // Load model selector (both selectors - top and in 3D viewer)
     const modelSelectorTop = document.getElementById('model-selector-top');
     const modelSelector3D = document.getElementById('model-selector');
-    
+
     const handleModelChange = async (modelName) => {
         if (modelName) {
             try {
@@ -590,13 +590,13 @@ function initialize3DViewer() {
             }
         }
     };
-    
+
     if (modelSelectorTop) {
         modelSelectorTop.addEventListener('change', async (e) => {
             await handleModelChange(e.target.value);
         });
     }
-    
+
     if (modelSelector3D) {
         modelSelector3D.addEventListener('change', async (e) => {
             await handleModelChange(e.target.value);

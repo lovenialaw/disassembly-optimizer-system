@@ -1,0 +1,251 @@
+[
+  {
+    "name": "BaseConnector",
+    "properties": {
+      "attached_to": "BaseCover",
+      "fastener": "Screws",
+      "disassembly_tool": "Philips screwdriver",
+      "function": "Structural",
+      "safety_risk": "High",
+      "blocked_by": [
+        "BaseCover"
+      ],
+      "importance": "High",
+      "disassembly_cost": "Medium"
+    }
+  },
+  {
+    "name": "BaseCover",
+    "properties": {
+      "attached_to": "MainBody",
+      "fastener": "Screws",
+      "disassembly_tool": "Philips screwdriver",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        []
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Medium"
+    }
+  },
+  {
+    "name": "BottomCover",
+    "properties": {
+      "attached_to": "MainBody",
+      "fastener": "Screws",
+      "disassembly_tool": "Philips screwdriver",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        []
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Medium"
+    }
+  },
+  {
+    "name": "FilterHolder",
+    "properties": {
+      "attached_to": "LidRing",
+      "fastener": "Screws",
+      "disassembly_tool": "Philips screwdriver",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        "LidRing",
+        "Lid"
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Medium"
+    }
+  },
+  {
+    "name": "Handle",
+    "properties": {
+      "attached_to": "MainBody",
+      "fastener": "Snap fit",
+      "disassembly_tool": "Hand",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        []
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "HandleSwitch",
+    "properties": {
+      "attached_to": "Handle",
+      "fastener": "Spring",
+      "disassembly_tool": "Hand",
+      "function": "Structural",
+      "safety_risk": "Medium",
+      "blocked_by": [
+        "Handle"
+      ],
+      "importance": "Medium",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "HeatingElement",
+    "properties": {
+      "attached_to": "BottomCover",
+      "fastener": "Screws",
+      "disassembly_tool": "Philips screwdriver",
+      "function": "Heat",
+      "safety_risk": "High",
+      "blocked_by": [
+        "BottomCover",
+        "Switch",
+        "LEDBulb",
+        "Thermostat"
+      ],
+      "importance": "High",
+      "disassembly_cost": "Medium"
+    }
+  },
+  {
+    "name": "LEDBulb",
+    "properties": {
+      "attached_to": "HeatingElement",
+      "fastener": "Wires",
+      "disassembly_tool": "Wire cutter",
+      "function": "Power",
+      "safety_risk": "Medium",
+      "blocked_by": [
+        "RubberFilling",
+        "BottomCover"
+      ],
+      "importance": "Medium",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "LidRing",
+    "properties": {
+      "attached_to": "MainBody",
+      "fastener": "Snap fit",
+      "disassembly_tool": "Pull",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        "Lid"
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "MainBody",
+    "properties": {
+      "attached_to": null,
+      "fastener": null,
+      "disassembly_tool": null,
+      "function": "Structural",
+      "safety_risk": null,
+      "blocked_by": [
+        []
+      ],
+      "importance": null,
+      "disassembly_cost": null
+    }
+  },
+  {
+    "name": "PlasticRing",
+    "properties": {
+      "attached_to": "MainBody",
+      "fastener": "Snap fit",
+      "disassembly_tool": "Hand",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        []
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "PlugTop",
+    "properties": {
+      "attached_to": "BaseConnector",
+      "fastener": "Wires",
+      "disassembly_tool": "Pull",
+      "function": "Power",
+      "safety_risk": "High",
+      "blocked_by": [
+        "BaseCover",
+        "BaseConnector"
+      ],
+      "importance": "High",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "RedCasing",
+    "properties": {
+      "attached_to": "RubberFilling",
+      "fastener": "Snap fit",
+      "disassembly_tool": "Hand",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        "BottomCover"
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "RubberFilling",
+    "properties": {
+      "attached_to": "LEDWire",
+      "fastener": "Snap fit",
+      "disassembly_tool": "Hand",
+      "function": "Structural",
+      "safety_risk": "Low",
+      "blocked_by": [
+        "RedCasing",
+        "BottomCover"
+      ],
+      "importance": "Low",
+      "disassembly_cost": "Low"
+    }
+  },
+  {
+    "name": "Switch",
+    "properties": {
+      "attached_to": "HeatingElement",
+      "fastener": "Wires",
+      "disassembly_tool": "Wire cutter",
+      "function": "Power",
+      "safety_risk": "Low",
+      "blocked_by": [
+        "BottomCover",
+        "HeatingElement"
+      ],
+      "importance": "Medium",
+      "disassembly_cost": "High"
+    }
+  },
+  {
+    "name": "Thermostat",
+    "properties": {
+      "attached_to": "HeatingElement",
+      "fastener": "Wires",
+      "disassembly_tool": "Pull",
+      "function": "Heat",
+      "safety_risk": "High",
+      "blocked_by": [
+        "BottomCover",
+        "HeatingElement"
+      ],
+      "importance": "High",
+      "disassembly_cost": "High"
+    }
+  }
+]

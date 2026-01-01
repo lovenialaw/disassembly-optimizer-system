@@ -1,0 +1,19 @@
+from,to,safety_risk,fastener,tool,fastener_count
+BaseCover,BaseConnector,High,Screws,Philips screwdriver,2
+LidRing,FilterHolder,Low,Screws,Philips screwdriver,2
+Handle,HandleSwitch,Medium,Spring,Hand,2
+BottomCover,HeatingElement,High,Screws,Philips screwdriver,2
+LEDBulb,HeatingElement,High,Screws,Philips screwdriver,2
+Switch,HeatingElement,High,Screws,Philips screwdriver,2
+Thermostat,HeatingElement,High,Screws,Philips screwdriver,2
+BottomCover,LEDBulb,Medium,Wires,Wire cutter,2
+RubberFilling,LEDBulb,Medium,Wires,Wire cutter,2
+BaseConnector,PlugTop,High,Wires,Pull,2
+BaseCover,PlugTop,High,Wires,Pull,2
+BottomCover,RedCasing,Low,Snap fit,Hand,2
+BottomCover,RubberFilling,Low,Snap fit,Hand,2
+RedCasing,RubberFilling,Low,Snap fit,Hand,2
+BottomCover,Switch,Low,Wires,Wire cutter,2
+HeatingElement,Switch,Low,Wires,Wire cutter,2
+BottomCover,Thermostat,High,Wires,Pull,2
+HeatingElement,Thermostat,High,Wires,Pull,2
