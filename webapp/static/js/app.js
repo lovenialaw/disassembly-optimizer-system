@@ -35,6 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeEventListeners();
     initialize3DViewer();
     initializeKnowledgeGraph();
+    setupGraphZoomControls();
+    setup3DZoomControls();
 });
 
 // Load Components
