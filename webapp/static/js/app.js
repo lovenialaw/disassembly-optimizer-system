@@ -420,7 +420,7 @@ async function runAlgorithm() {
         };
 
         if (algorithm === 'genetic') {
-            payload.population_size = parseInt(document.getElementById('pop-size').value);
+            // Population size is calculated automatically by the backend (factorial)
             payload.generations = parseInt(document.getElementById('generations').value);
             payload.mutation_rate = parseFloat(document.getElementById('mutation-rate').value);
             payload.crossover_rate = parseFloat(document.getElementById('crossover-rate').value);
