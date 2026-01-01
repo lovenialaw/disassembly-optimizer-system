@@ -87,7 +87,11 @@ async function switchModel(modelName) {
         state.targetComponent = null;
         state.parameters = {};
         state.currentSequence = null;
+        state.validPaths = [];
+        state.pathEdges = [];
+        state.optimalPath = null;
         renderSelectedComponents();
+        renderKnowledgeGraph();  // Refresh graph to clear highlights
 
         console.log(`Switched to model: ${modelName}`);
     } catch (error) {
@@ -128,6 +132,8 @@ async function loadValidPaths(target) {
         const data = await response.json();
         state.validPaths = data.paths;
         state.pathEdges = extractUniqueEdgesFromPaths(data.paths);
+        // Refresh knowledge graph to show valid paths
+        renderKnowledgeGraph();
         return data;
     } catch (error) {
         console.error('Error loading paths:', error);
@@ -745,16 +751,60 @@ function renderKnowledgeGraph() {
     const container = document.getElementById('knowledge-graph');
     if (!container || !state.graphData) return;
 
-    const nodes = new vis.DataSet(state.graphData.nodes.map(node => ({
-        ...node,
-        color: { background: '#ffffff', border: '#0969da', highlight: { background: '#ddf4ff', border: '#0969da' } }
-    })));
+    // Color nodes based on whether they're in valid paths or optimal path
+    const nodes = new vis.DataSet(state.graphData.nodes.map(node => {
+        const nodeId = node.id;
+        let nodeColor = { background: '#ffffff', border: '#656d76', highlight: { background: '#ddf4ff', border: '#0969da' } };
+        
+        // Highlight target component
+        if (state.targetComponent === nodeId) {
+            nodeColor = { background: '#fff3cd', border: '#ffc107', highlight: { background: '#ffe69c', border: '#ffc107' } };
+        }
+        // Highlight nodes in optimal path (strongest highlight)
+        else if (state.optimalPath && state.optimalPath.includes(nodeId)) {
+            nodeColor = { background: '#d1e7dd', border: '#198754', highlight: { background: '#a3cfbb', border: '#198754' } };
+        }
+        // Highlight nodes in valid paths
+        else if (state.validPaths.length > 0 && state.validPaths.some(path => path.includes(nodeId))) {
+            nodeColor = { background: '#cfe2ff', border: '#0d6efd', highlight: { background: '#9ec5fe', border: '#0d6efd' } };
+        }
+        
+        return {
+            ...node,
+            color: nodeColor
+        };
+    }));
 
-    const edges = new vis.DataSet(state.graphData.edges.map(edge => ({
-        ...edge,
-        arrows: 'to',
-        color: { color: '#656d76' }
-    })));
+    // Color edges based on whether they're in valid paths or optimal path
+    const edges = new vis.DataSet(state.graphData.edges.map(edge => {
+        const edgeKey = `${edge.from}->${edge.to}`;
+        let edgeColor = '#656d76';
+        let edgeWidth = 2;
+        
+        // Highlight edges in optimal path (strongest highlight)
+        if (state.optimalPath) {
+            const optimalPathEdges = [];
+            for (let i = 0; i < state.optimalPath.length - 1; i++) {
+                optimalPathEdges.push(`${state.optimalPath[i]}->${state.optimalPath[i+1]}`);
+            }
+            if (optimalPathEdges.includes(edgeKey)) {
+                edgeColor = '#198754';
+                edgeWidth = 4;
+            }
+        }
+        // Highlight edges in valid paths (lighter highlight)
+        else if (state.pathEdges.length > 0 && state.pathEdges.some(e => e.key === edgeKey)) {
+            edgeColor = '#0d6efd';
+            edgeWidth = 3;
+        }
+        
+        return {
+            ...edge,
+            arrows: 'to',
+            color: { color: edgeColor },
+            width: edgeWidth
+        };
+    }));
 
     const data = { nodes, edges };
     const options = {
@@ -764,7 +814,6 @@ function renderKnowledgeGraph() {
             margin: 10
         },
         edges: {
-            width: 2,
             smooth: { type: 'curvedCW', roundness: 0.3 }
         },
         layout: {
