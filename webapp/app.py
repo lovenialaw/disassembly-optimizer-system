@@ -11,7 +11,6 @@ from pathlib import Path
 # Set paths relative to this script's directory (works from root or webapp folder)
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _static_folder = os.path.join(_script_dir, 'static')
-_metadata_path = os.path.join(_script_dir, 'gearbox_metadata.json')
 
 app = Flask(__name__, static_folder=_static_folder, static_url_path='')
 # CORS configuration - allow requests from GitHub Pages and localhost
@@ -21,9 +20,57 @@ CORS(app, origins=[
     "http://127.0.0.1:5000"
 ])
 
-# Load metadata
-with open(_metadata_path, 'r') as f:
-    metadata = json.load(f)
+# Metadata management - support multiple models
+current_model = 'gearbox'  # Default model
+metadata = None
+G_topology = None
+
+
+def build_graph_from_metadata(metadata_data):
+    """Build topology graph from metadata JSON"""
+    G = nx.DiGraph()
+
+    for item in metadata_data:
+        component = item['name']
+        G.add_node(component)
+
+        # Add blocked_by relationships
+        if 'blocked_by' in item.get('properties', {}):
+            blockers = item['properties']['blocked_by']
+            # Handle both list of strings and empty arrays
+            if isinstance(blockers, list):
+                for blocker in blockers:
+                    # Skip empty strings, empty lists, None, and non-string values
+                    if isinstance(blocker, str) and blocker != '':
+                        G.add_edge(blocker, component)
+
+        # Add attached_to relationships (also creates blocked_by)
+        if 'attached_to' in item.get('properties', {}):
+            attached_to = item['properties']['attached_to']
+            if attached_to and attached_to != component and attached_to != []:
+                G.add_edge(attached_to, component)
+
+    return G
+
+
+def load_metadata(model_name='gearbox'):
+    """Load metadata for the specified model"""
+    global metadata, G_topology, current_model
+    metadata_file = f'{model_name}_metadata.json'
+    metadata_path = os.path.join(_script_dir, metadata_file)
+
+    try:
+        with open(metadata_path, 'r') as f:
+            metadata = json.load(f)
+        G_topology = build_graph_from_metadata(metadata)
+        current_model = model_name
+        return True
+    except FileNotFoundError:
+        return False
+
+
+# Load default metadata (gearbox)
+load_metadata('gearbox')
 
 # Mappings
 SAFETY_MAP = {"Low": 1, "Medium": 2, "High": 3}
@@ -61,41 +108,39 @@ def fastener_count_penalty(count):
         return 3
 
 
-def build_graph_from_metadata():
-    """Build topology graph from metadata JSON"""
-    G = nx.DiGraph()
-
-    for item in metadata:
-        component = item['name']
-        G.add_node(component)
-
-        # Add blocked_by relationships
-        if 'blocked_by' in item.get('properties', {}):
-            for blocker in item['properties']['blocked_by']:
-                # blocker must be removed before component
-                G.add_edge(blocker, component)
-
-        # Add attached_to relationships (also creates blocked_by)
-        if 'attached_to' in item.get('properties', {}):
-            attached_to = item['properties']['attached_to']
-            if attached_to and attached_to != component:
-                G.add_edge(attached_to, component)
-
-    return G
-
-
-# Build graph once at startup
-G_topology = build_graph_from_metadata()
-
-
 @app.route('/')
 def index():
     return send_from_directory(_static_folder, 'index.html')
 
 
+@app.route('/api/models', methods=['GET'])
+def get_models():
+    """Get list of available models"""
+    models = []
+    for model in ['gearbox', 'kettle']:
+        metadata_file = f'{model}_metadata.json'
+        metadata_path = os.path.join(_script_dir, metadata_file)
+        if os.path.exists(metadata_path):
+            models.append(model)
+    return jsonify(models)
+
+
+@app.route('/api/model/<model_name>', methods=['POST'])
+def set_model(model_name):
+    """Switch to a different model"""
+    global current_model
+    if load_metadata(model_name):
+        current_model = model_name
+        return jsonify({'success': True, 'model': model_name})
+    else:
+        return jsonify({'success': False, 'error': f'Model {model_name} not found'}), 404
+
+
 @app.route('/api/components', methods=['GET'])
 def get_components():
     """Get list of all components"""
+    if G_topology is None:
+        return jsonify({'error': 'No model loaded'}), 500
     components = sorted(list(G_topology.nodes))
     return jsonify(components)
 
@@ -103,6 +148,8 @@ def get_components():
 @app.route('/api/graph', methods=['GET'])
 def get_graph():
     """Get knowledge graph structure"""
+    if G_topology is None:
+        return jsonify({'error': 'No model loaded'}), 500
     nodes = [{'id': node, 'label': node} for node in G_topology.nodes]
     edges = [{'from': u, 'to': v} for u, v in G_topology.edges]
     return jsonify({'nodes': nodes, 'edges': edges})
@@ -474,5 +521,4 @@ def calculate_weights():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    app.run(debug=True, port=5000)
