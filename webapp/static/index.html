@@ -27,7 +27,7 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Left Panel: 3D Viewer and Knowledge Graph Side by Side -->
+            <!-- Left Panel: 3D Viewer and Knowledge Graph -->
             <div class="left-panel">
                 <!-- 3D Model Viewer -->
                 <div class="viewer-section">
@@ -49,8 +49,9 @@
                 </div>
             </div>
 
-            <!-- Right Panel: Controls in 3x3 Grid -->
+            <!-- Right Panel: Controls and Results -->
             <div class="right-panel">
+                <!-- Component Selection and Parameters Grid -->
                 <div class="controls-grid">
                     <!-- Component Selection -->
                     <div class="control-section">
@@ -68,57 +69,57 @@
                     </div>
 
                     <!-- Parameter Input -->
-                    <div class="control-section">
+                    <div class="control-section" style="grid-column: span 2;">
                         <h2>Disassembly Parameters</h2>
                         <div id="parameters-container" class="parameters-container">
                             <p class="info-text">Select a target component to disassemble, then configure parameters for
                                 disassembly steps</p>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Algorithm Selection -->
-                    <div class="control-section">
-                        <h2>Algorithm Selection</h2>
-                        <div class="algorithm-selector">
-                            <label>
-                                <input type="radio" name="algorithm" value="dijkstra" checked>
-                                Dijkstra's Algorithm
-                            </label>
-                            <label>
-                                <input type="radio" name="algorithm" value="genetic">
-                                Genetic Algorithm
-                            </label>
-                        </div>
-                        <div id="genetic-params" class="genetic-params" style="display: none;">
-                            <label>Population Size: <input type="number" id="pop-size" value="20" min="2" max="100"></label>
-                            <label>Generations: <input type="number" id="generations" value="30" min="1" max="200"></label>
-                            <label>Mutation Rate: <input type="number" id="mutation-rate" value="0.2" min="0" max="1"
-                                    step="0.1"></label>
-                            <label>Crossover Rate: <input type="number" id="crossover-rate" value="0.7" min="0" max="1"
-                                    step="0.1"></label>
-                        </div>
-                        <button id="run-algorithm" class="btn btn-primary">Run Algorithm</button>
+                <!-- Algorithm Selection -->
+                <div class="control-section">
+                    <h2>Algorithm Selection</h2>
+                    <div class="algorithm-selector">
+                        <label>
+                            <input type="radio" name="algorithm" value="dijkstra" checked>
+                            Dijkstra's Algorithm
+                        </label>
+                        <label>
+                            <input type="radio" name="algorithm" value="genetic">
+                            Genetic Algorithm
+                        </label>
                     </div>
-
-                    <!-- Results -->
-                    <div class="control-section">
-                        <h2>Results</h2>
-                        <div id="results-container" class="results-container">
-                            <p class="info-text">Run algorithm to see results</p>
-                        </div>
+                    <div id="genetic-params" class="genetic-params" style="display: none;">
+                        <label>Population Size: <input type="number" id="pop-size" value="20" min="2" max="100"></label>
+                        <label>Generations: <input type="number" id="generations" value="30" min="1" max="200"></label>
+                        <label>Mutation Rate: <input type="number" id="mutation-rate" value="0.2" min="0" max="1"
+                                step="0.1"></label>
+                        <label>Crossover Rate: <input type="number" id="crossover-rate" value="0.7" min="0" max="1"
+                                step="0.1"></label>
                     </div>
+                    <button id="run-algorithm" class="btn btn-primary">Run Algorithm</button>
+                </div>
 
-                    <!-- Animation Controls -->
-                    <div class="control-section" id="animation-controls" style="display: none;">
-                        <h2>Animation</h2>
-                        <div class="animation-buttons">
-                            <button id="play-animation" class="btn btn-secondary">Play</button>
-                            <button id="pause-animation" class="btn btn-secondary">Pause</button>
-                            <button id="reset-animation" class="btn btn-secondary">Reset</button>
-                        </div>
-                        <div class="animation-progress">
-                            <label>Step: <span id="animation-step">0</span> / <span id="animation-total">0</span></label>
-                        </div>
+                <!-- Results -->
+                <div class="control-section">
+                    <h2>Results</h2>
+                    <div id="results-container" class="results-container">
+                        <p class="info-text">Run algorithm to see results</p>
+                    </div>
+                </div>
+
+                <!-- Animation Controls -->
+                <div class="control-section" id="animation-controls" style="display: none;">
+                    <h2>Animation</h2>
+                    <div class="animation-buttons">
+                        <button id="play-animation" class="btn btn-secondary">Play</button>
+                        <button id="pause-animation" class="btn btn-secondary">Pause</button>
+                        <button id="reset-animation" class="btn btn-secondary">Reset</button>
+                    </div>
+                    <div class="animation-progress">
+                        <label>Step: <span id="animation-step">0</span> / <span id="animation-total">0</span></label>
                     </div>
                 </div>
             </div>
