@@ -90,7 +90,7 @@ G_topology = build_graph_from_metadata()
 
 @app.route('/')
 def index():
-    return send_from_directory('static', 'index.html')
+    return send_from_directory(_static_folder, 'index.html')
 
 
 @app.route('/api/components', methods=['GET'])
