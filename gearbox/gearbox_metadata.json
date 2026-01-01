@@ -1,0 +1,601 @@
+[
+  {
+    "name": "1st Gear",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "Synchronizer Ring Set No.1"
+      ]
+    }
+  },
+  {
+    "name": "1st Gear Bearing Spacer",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "1st Gear Needle Roller Bearing"
+      ]
+    }
+  },
+  {
+    "name": "1st Gear Needle Roller Bearing",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "1st Gear"
+      ]
+    }
+  },
+  {
+    "name": "1st Gear Thrust Washer",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "1st Gear Bearing Spacer"
+      ]
+    }
+  },
+  {
+    "name": "1st Gear Thrust Washer Pin",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "1st Gear Thrust Washer"
+      ]
+    }
+  },
+  {
+    "name": "2nd Gear",
+    "properties": {
+      "attached_to": "Second Gear Stage",
+      "blocked_by": [
+        "Synchronizer Ring Set No.1"
+      ]
+    }
+  },
+  {
+    "name": "2nd Gear Needle Roller Bearing",
+    "properties": {
+      "attached_to": "Second Gear Stage",
+      "blocked_by": [
+        "2nd Gear"
+      ]
+    }
+  },
+  {
+    "name": "3rd Gear",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Synchronizer Ring No.2"
+      ]
+    }
+  },
+  {
+    "name": "3rd Gear Needle Roller Bearing",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "3rd Gear"
+      ]
+    }
+  },
+  {
+    "name": "5th Gear",
+    "properties": {
+      "attached_to": "5th Gear Group",
+      "blocked_by": [
+        "Output Shaft center Bearing"
+      ]
+    }
+  },
+  {
+    "name": "5th Gear Group",
+    "properties": {
+      "attached_to": "Output Shaft",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "5th Gear Thrust Washer",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "5th Gear Thrust Washer Pin"
+      ]
+    }
+  },
+  {
+    "name": "Bearing Shaft Snap Ring",
+    "properties": {
+      "attached_to": "Reverse Gear Stage",
+      "blocked_by": [
+        "Synchronizer Ring Set No.1"
+      ]
+    }
+  },
+  {
+    "name": "Clutch Hub Set Shaft Snap Ring",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Input Shaft Bearing"
+      ]
+    }
+  },
+  {
+    "name": "Counter 5th Gear",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Counter 5th Gear Bearing"
+      ]
+    }
+  },
+  {
+    "name": "Counter 5th Gear Bearing",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "5th Gear Thrust Washer"
+      ]
+    }
+  },
+  {
+    "name": "Counter Gear",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Intermediate Plate"
+      ]
+    }
+  },
+  {
+    "name": "Counter Gear Assembly",
+    "properties": {
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Counter Gear Front Bearing",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Counter Gear Front Bearing Snap Ring No.2"
+      ]
+    }
+  },
+  {
+    "name": "Counter Gear Front Bearing Snap Ring No.2",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Transmission Case"
+      ]
+    }
+  },
+  {
+    "name": "Counter Gear Rear Shaft Snap Ring",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Gear Spline Piece No.5"
+      ]
+    }
+  },
+  {
+    "name": "Counter Shaft Center Bearing",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Intermediate Plate"
+      ]
+    }
+  },
+  {
+    "name": "Counter Shaft Hole",
+    "properties": {
+      "attached_to": "Intermediate Plate",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "First Gear Stage",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Front Bearing Shaft Snap Ring",
+    "properties": {
+      "attached_to": "Input Shaft Assembly",
+      "blocked_by": [
+        "Transmission Case"
+      ]
+    }
+  },
+  {
+    "name": "Gear Spline Piece No.5",
+    "properties": {
+      "attached_to": "Counter Gear Assembly",
+      "blocked_by": [
+        "Synchronizer Ring Outer No.3"
+      ]
+    }
+  },
+  {
+    "name": "Input Shaft",
+    "properties": {
+      "attached_to": "Input Shaft Assembly",
+      "blocked_by": [
+        "Input Shaft Front Bearing"
+      ]
+    }
+  },
+  {
+    "name": "Input Shaft Assembly",
+    "properties": {
+      "attached_to": "Intermediate Plate",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Input Shaft Bearing",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Synchronizer Ring No.2"
+      ]
+    }
+  },
+  {
+    "name": "Input Shaft Front Bearing",
+    "properties": {
+      "attached_to": "Input Shaft Assembly",
+      "blocked_by": [
+        "Front Bearing Shaft Snap Ring"
+      ]
+    }
+  },
+  {
+    "name": "Input Shaft Hole",
+    "properties": {
+      "attached_to": "Intermediate Plate",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Intermediate Plate",
+    "properties": {
+      "attached_to": "Intermediate Plate Assembly",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Intermediate Plate Assembly",
+    "properties": {
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Output Shaft",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "3rd Gear Needle Roller Bearing"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Assembly",
+    "properties": {
+      "attached_to": "Intermediate Plate",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Output Shaft Bearing Shaft Snap Ring",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "5th Gear"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Bearing Snap Ring",
+    "properties": {
+      "attached_to": "5th Gear Group",
+      "blocked_by": [
+        "5th Gear"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Center Bearing",
+    "properties": {
+      "attached_to": "5th Gear Group",
+      "blocked_by": [
+        "1st Gear Thrust Washer"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Rear Bearing",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Bearing Shaft Snap Ring"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Rear Bearing Retainer",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Bearing Shaft Snap Ring"
+      ]
+    }
+  },
+  {
+    "name": "Output Shaft Rear Snap Ring",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing Retainer"
+      ]
+    }
+  },
+  {
+    "name": "Rear Bearing Spacer",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing"
+      ]
+    }
+  },
+  {
+    "name": "Rear Output Shaft Lock Set",
+    "properties": {
+      "attached_to": "Output Shaft",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Rear Retainer Bolt 1",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing Retainer"
+      ]
+    }
+  },
+  {
+    "name": "Rear Retainer Bolt 2",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing Retainer"
+      ]
+    }
+  },
+  {
+    "name": "Rear Retainer Bolt 3",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing Retainer"
+      ]
+    }
+  },
+  {
+    "name": "Rear Retainer Bolt 4",
+    "properties": {
+      "attached_to": "Rear Output Shaft Lock Set",
+      "blocked_by": [
+        "Output Shaft Rear Bearing Retainer"
+      ]
+    }
+  },
+  {
+    "name": "Reverse Gear",
+    "properties": {
+      "attached_to": "Reverse Gear Stage",
+      "blocked_by": [
+        "Bearing Shaft Snap Ring"
+      ]
+    }
+  },
+  {
+    "name": "Reverse Gear Stage",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Reverse Idler Gear",
+    "properties": {
+      "attached_to": "Reverse Idler Gear Assembly",
+      "blocked_by": [
+        "Reverse Idler Gear Shaft"
+      ]
+    }
+  },
+  {
+    "name": "Reverse Idler Gear Assembly",
+    "properties": {
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Reverse Idler Gear Shaft",
+    "properties": {
+      "attached_to": "Reverse Idler Gear Assembly",
+      "blocked_by": [
+        "Intermediate Plate"
+      ]
+    }
+  },
+  {
+    "name": "Reverse Idler Hole",
+    "properties": {
+      "attached_to": "Intermediate Plate",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Second Gear Stage",
+    "properties": {
+      "attached_to": "Output Shaft",
+      "blocked_by": []
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 1",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 1.001",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 2",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 2.001",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 3",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key 3.001",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key Spring",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Clutch Hub Set Shaft Snap Ring"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key Spring2 1",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2 (2)",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2 (2)"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key Spring2 2",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2 (2)",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2 (2)"
+      ]
+    }
+  },
+  {
+    "name": "Synchromesh Shifting Key Spring2 3",
+    "properties": {
+      "attached_to": "Transmission Clutch Hub No.2 (2)",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2 (2)"
+      ]
+    }
+  },
+  {
+    "name": "Synchronizer Ring No.2",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Intermediate Plate"
+      ]
+    }
+  },
+  {
+    "name": "Synchronizer Ring Set No.1",
+    "properties": {
+      "attached_to": "Second Gear Stage",
+      "blocked_by": [
+        "Transmission Clutch Hub No.2 (2)"
+      ]
+    }
+  },
+  {
+    "name": "Synchronizer Ring Set No.1 Second",
+    "properties": {
+      "attached_to": "First Gear Stage",
+      "blocked_by": [
+        "Reverse Gear"
+      ]
+    }
+  },
+  {
+    "name": "Transmission Clutch Hub No.2",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Synchromesh Shifting Key Spring"
+      ]
+    }
+  },
+  {
+    "name": "Transmission Clutch Hub No.2 (2)",
+    "properties": {
+      "attached_to": "Second Gear Stage",
+      "blocked_by": [
+        "Reverse Gear"
+      ]
+    }
+  },
+  {
+    "name": "Transmission Hub Sleeve No.2",
+    "properties": {
+      "attached_to": "Output Shaft Assembly",
+      "blocked_by": [
+        "Synchromesh Shifting Key Spring"
+      ]
+    }
+  }
+]
