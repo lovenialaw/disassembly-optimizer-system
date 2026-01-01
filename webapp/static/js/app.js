@@ -66,29 +66,29 @@ async function switchModel(modelName) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
-
-        if (!response.ok) {
-            throw new Error('Failed to switch model');
-        }
-
+        
         const result = await response.json();
-        if (result.success) {
-            // Reload components and graph data
-            await loadComponents();
-            await loadGraphData();
-
-            // Clear selected components and parameters
-            state.selectedComponents = [];
-            state.targetComponent = null;
-            state.parameters = {};
-            state.currentSequence = null;
-            renderSelectedComponents();
-
-            console.log(`Switched to model: ${modelName}`);
+        
+        if (!response.ok || !result.success) {
+            const errorMsg = result.error || 'Failed to switch model';
+            throw new Error(errorMsg);
         }
+        
+        // Reload components and graph data
+        await loadComponents();
+        await loadGraphData();
+        
+        // Clear selected components and parameters
+        state.selectedComponents = [];
+        state.targetComponent = null;
+        state.parameters = {};
+        state.currentSequence = null;
+        renderSelectedComponents();
+        
+        console.log(`Switched to model: ${modelName}`);
     } catch (error) {
         console.error('Error switching model:', error);
-        showError('Failed to switch model. Please try again.');
+        showError(error.message || 'Failed to switch model. Please try again.');
     }
 }
 

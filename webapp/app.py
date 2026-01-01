@@ -58,7 +58,7 @@ def load_metadata(model_name='gearbox'):
     global metadata, G_topology, current_model
     metadata_file = f'{model_name}_metadata.json'
     metadata_path = os.path.join(_script_dir, metadata_file)
-
+    
     try:
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
@@ -66,6 +66,11 @@ def load_metadata(model_name='gearbox'):
         current_model = model_name
         return True
     except FileNotFoundError:
+        return False
+    except Exception as e:
+        print(f"Error loading metadata for {model_name}: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
@@ -129,11 +134,14 @@ def get_models():
 def set_model(model_name):
     """Switch to a different model"""
     global current_model
-    if load_metadata(model_name):
-        current_model = model_name
-        return jsonify({'success': True, 'model': model_name})
-    else:
-        return jsonify({'success': False, 'error': f'Model {model_name} not found'}), 404
+    try:
+        if load_metadata(model_name):
+            current_model = model_name
+            return jsonify({'success': True, 'model': model_name})
+        else:
+            return jsonify({'success': False, 'error': f'Model {model_name} not found or failed to load'}), 404
+    except Exception as e:
+        return jsonify({'success': False, 'error': f'Error switching to model {model_name}: {str(e)}'}), 500
 
 
 @app.route('/api/components', methods=['GET'])
