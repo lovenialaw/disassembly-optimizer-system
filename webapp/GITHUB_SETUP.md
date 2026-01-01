@@ -106,15 +106,44 @@ your-repo/
 
 #### Method 1: Heroku (Recommended for Beginners)
 
-1. Create `Procfile` in `webapp/`:
+1. **Create `Procfile` in `webapp/` folder:**
+   
+   **Option A: Using a text editor (easiest)**
+   - Navigate to `C:\xampp\htdocs\gearbox\webapp\`
+   - Right-click in the folder → New → Text Document
+   - Name it exactly: `Procfile` (no extension - remove .txt if Windows adds it)
+   - Open it and type this single line:
+     ```
+     web: python app.py
+     ```
+   - Save and close
+   
+   **Option B: Using PowerShell (from webapp folder)**
+   ```powershell
+   cd C:\xampp\htdocs\gearbox\webapp
+   echo "web: python app.py" > Procfile
    ```
-   web: python app.py
-   ```
+   
+   **Important:** The file must be named exactly `Procfile` (no extension, no `.txt`)
 
-2. Create `runtime.txt` in `webapp/`:
+2. **Create `runtime.txt` in `webapp/` folder:**
+   
+   **Option A: Using a text editor**
+   - In the same `webapp\` folder
+   - Right-click → New → Text Document
+   - Name it: `runtime.txt` (this one DOES have .txt extension)
+   - Open it and type:
+     ```
+     python-3.11.0
+     ```
+   - Save and close
+   
+   **Option B: Using PowerShell (from webapp folder)**
+   ```powershell
+   echo "python-3.11.0" > runtime.txt
    ```
-   python-3.11.0
-   ```
+   
+   **Note:** You can use `python-3.10.0` or `python-3.9.0` if you prefer a different Python version
 
 3. Install Heroku CLI and login:
    ```bash
