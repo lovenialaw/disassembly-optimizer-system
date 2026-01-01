@@ -355,7 +355,7 @@ label {
     overflow-x: auto;
     overflow-y: auto;
     width: 100%;
-    max-height: calc(100vh - 280px);
+    max-height: calc(100vh - 220px);
 }
 
 .parameters-table {
@@ -383,14 +383,19 @@ label {
 }
 
 .parameters-table th.step-header {
-    min-width: 180px;
-    width: 20%;
+    min-width: 250px;
+    width: 25%;
 }
 
 .parameters-table td {
     padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
+}
+
+.parameters-table td:first-child {
+    min-width: 250px;
+    width: 25%;
 }
 
 .parameters-table tbody tr {
@@ -407,23 +412,26 @@ label {
 
 .step-name {
     font-size: 13px;
-    line-height: 1.6;
-    min-width: 180px;
+    line-height: 1.4;
+    min-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .step-name strong {
-    display: block;
+    display: inline;
     color: var(--text-color);
     font-weight: 600;
 }
 
 .step-name .arrow {
-    display: block;
-    text-align: center;
+    display: inline;
     color: var(--primary-color);
     font-size: 16px;
     font-weight: bold;
-    margin: 4px 0;
+    margin: 0 8px;
+    vertical-align: middle;
 }
 
 .parameters-table .select-input {
@@ -439,7 +447,7 @@ label {
     .parameters-table-wrapper {
         overflow-x: scroll;
     }
-    
+
     .parameters-table {
         min-width: 800px;
     }
