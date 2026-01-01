@@ -53,10 +53,7 @@ async function loadGraphData() {
         const response = await fetch(`${API_BASE}/graph`);
         state.graphData = await response.json();
         renderKnowledgeGraph();
-        // Only render parameters if parameterOptions is loaded
-        if (state.parameterOptions) {
-            renderParameters(); // Render parameters for all graph edges initially
-        }
+        renderParameters(); // Render parameters for all graph edges initially
     } catch (error) {
         console.error('Error loading graph:', error);
     }
@@ -70,14 +67,6 @@ async function switchModel(modelName) {
             headers: { 'Content-Type': 'application/json' }
         });
         
-        // Check if response is JSON
-        const contentType = response.headers.get('content-type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text();
-            console.error('Non-JSON response:', text.substring(0, 200));
-            throw new Error(`Server returned ${response.status}: ${response.statusText}. Make sure the backend is deployed with the latest code.`);
-        }
-        
         const result = await response.json();
         
         if (!response.ok || !result.success) {
@@ -88,12 +77,6 @@ async function switchModel(modelName) {
         // Reload components and graph data
         await loadComponents();
         await loadGraphData();
-        
-        // Ensure parameterOptions is loaded before rendering parameters
-        if (!state.parameterOptions) {
-            await loadParameterOptions();
-        }
-        renderParameters(); // Render parameters after everything is loaded
         
         // Clear selected components and parameters
         state.selectedComponents = [];
@@ -136,9 +119,8 @@ function initializeEventListeners() {
     // Target component selection
     document.getElementById('target-component').addEventListener('change', (e) => {
         state.targetComponent = e.target.value;
-        if (state.targetComponent) {
-            addComponentToSelection(state.targetComponent);
-        }
+        // Render parameters for all graph edges (user can configure them)
+        renderParameters();
     });
 
     // Algorithm selection
@@ -178,7 +160,7 @@ function removeComponentFromSelection(component) {
 function renderSelectedComponents() {
     const container = document.getElementById('selected-components-list');
     container.innerHTML = '';
-
+    
     state.selectedComponents.forEach(comp => {
         const chip = document.createElement('span');
         chip.className = 'component-chip';
@@ -194,48 +176,28 @@ function renderSelectedComponents() {
 function renderParameters() {
     const container = document.getElementById('parameters-container');
     container.innerHTML = '';
-
-    // Check if parameterOptions is loaded
-    if (!state.parameterOptions) {
-        container.innerHTML = '<p class="info-text">Loading parameter options...</p>';
-        loadParameterOptions().then(() => {
-            renderParameters(); // Retry after loading
-        });
-        return;
-    }
-
+    
     // Show parameters for all edges in the graph, or for selected component sequence
     if (!state.graphData || !state.graphData.edges || state.graphData.edges.length === 0) {
         container.innerHTML = '<p class="info-text">Loading graph data...</p>';
         return;
     }
-
-    // Get edges to show parameters for
-    let edgesToShow = [];
-
-    if (state.selectedComponents.length >= 2) {
-        // Show parameters for edges in the selected sequence
-        for (let i = 0; i < state.selectedComponents.length - 1; i++) {
-            const from = state.selectedComponents[i];
-            const to = state.selectedComponents[i + 1];
-            edgesToShow.push({ from, to });
-        }
-    } else {
-        // Show parameters for all edges in the graph
-        edgesToShow = state.graphData.edges;
-    }
-
+    
+    // Show parameters for all edges in the graph
+    // Users can configure parameters for any disassembly step
+    const edgesToShow = state.graphData.edges;
+    
     if (edgesToShow.length === 0) {
-        container.innerHTML = '<p class="info-text">Select components or configure parameters for graph edges</p>';
+        container.innerHTML = '<p class="info-text">No graph edges available. Select a target component first.</p>';
         return;
     }
-
+    
     // Create parameter groups for each edge
     edgesToShow.forEach(edge => {
         const from = edge.from;
         const to = edge.to;
         const edgeKey = `${from}->${to}`;
-
+        
         // Initialize parameters if not exists
         if (!state.parameters[edgeKey]) {
             state.parameters[edgeKey] = {
@@ -245,7 +207,7 @@ function renderParameters() {
                 count: 0
             };
         }
-
+        
         const paramGroup = document.createElement('div');
         paramGroup.className = 'parameter-group';
         paramGroup.innerHTML = `
@@ -254,17 +216,17 @@ function renderParameters() {
                 <label>
                     Safety Risk
                     <select class="select-input param-input" data-edge="${edgeKey}" data-param="safety">
-                        ${state.parameterOptions.safety.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].safety === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
+                        ${state.parameterOptions.safety.map(opt => 
+                            `<option value="${opt}" ${state.parameters[edgeKey].safety === opt ? 'selected' : ''}>${opt}</option>`
+                        ).join('')}
                     </select>
                 </label>
                 <label>
                     Fastener Type
                     <select class="select-input param-input" data-edge="${edgeKey}" data-param="fastener">
-                        ${state.parameterOptions.fasteners.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].fastener === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
+                        ${state.parameterOptions.fasteners.map(opt => 
+                            `<option value="${opt}" ${state.parameters[edgeKey].fastener === opt ? 'selected' : ''}>${opt}</option>`
+                        ).join('')}
                     </select>
                 </label>
             </div>
@@ -272,24 +234,24 @@ function renderParameters() {
                 <label>
                     Tool
                     <select class="select-input param-input" data-edge="${edgeKey}" data-param="tool">
-                        ${state.parameterOptions.tools.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].tool === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
+                        ${state.parameterOptions.tools.map(opt => 
+                            `<option value="${opt}" ${state.parameters[edgeKey].tool === opt ? 'selected' : ''}>${opt}</option>`
+                        ).join('')}
                     </select>
                 </label>
                 <label>
                     Number of Fasteners
                     <select class="select-input param-input" data-edge="${edgeKey}" data-param="count">
-                        ${state.parameterOptions.fastener_counts.map(count =>
-            `<option value="${count}" ${state.parameters[edgeKey].count == count ? 'selected' : ''}>${count}</option>`
-        ).join('')}
+                        ${state.parameterOptions.fastener_counts.map(count => 
+                            `<option value="${count}" ${state.parameters[edgeKey].count == count ? 'selected' : ''}>${count}</option>`
+                        ).join('')}
                     </select>
                 </label>
             </div>
         `;
         container.appendChild(paramGroup);
     });
-
+    
     // Add event listeners for parameter changes
     document.querySelectorAll('.param-input').forEach(input => {
         input.addEventListener('change', (e) => {
@@ -312,7 +274,7 @@ async function calculateEdgeWeights() {
             })
         });
         const weights = await response.json();
-
+        
         // Convert object keys from string to tuple format
         const edgeWeights = {};
         for (const [key, value] of Object.entries(weights)) {
@@ -329,25 +291,20 @@ async function calculateEdgeWeights() {
 // Run Algorithm
 async function runAlgorithm() {
     if (!state.targetComponent) {
-        showError('Please select a target component');
+        showError('Please select a target component to disassemble');
         return;
     }
-
-    if (state.selectedComponents.length < 2) {
-        showError('Please select at least 2 components');
-        return;
-    }
-
+    
     const algorithm = document.querySelector('input[name="algorithm"]:checked').value;
     const resultsContainer = document.getElementById('results-container');
     resultsContainer.innerHTML = '<p class="info-text">Running algorithm...</p>';
-
+    
     try {
         // Build edge weights from topology graph, not just selected components
         // We need to get all valid edges from the knowledge graph
         const edgeWeights = {};
         const graph = state.graphData;
-
+        
         // First, build weights for all edges in the graph based on user parameters
         // If user hasn't set parameters for an edge, use defaults
         if (graph && graph.edges) {
@@ -355,7 +312,7 @@ async function runAlgorithm() {
                 const from = edge.from;
                 const to = edge.to;
                 const edgeKey = `${from}->${to}`;
-
+                
                 // Check if user has set parameters for this edge
                 const param = state.parameters[edgeKey] || {
                     safety: 'Medium',
@@ -363,11 +320,11 @@ async function runAlgorithm() {
                     tool: 'Pull',
                     count: 0
                 };
-
+                
                 const safetyMap = { "Low": 1, "Medium": 2, "High": 3 };
                 const fastenerMap = { "Snap ring": 1, "Bolts": 2, "Snap fit": 1.5, "Spring": 1.5, "Press fit": 3, "None": 1 };
                 const toolMap = { "Pull": 1, "Flat screwdriver 1 & flat screwdriver 2 & hammer": 1.5, "Bearing splitter": 2, "Cordless drill rivet gun": 2.5, "Puller": 1.5, "Bearing splitter & hydraulic press": 3, "Heel bar": 1.5, "Gear puller": 2, "Push": 1 };
-
+                
                 function fastenerCountPenalty(count) {
                     count = parseInt(count);
                     if (count == 0) return 1;
@@ -375,42 +332,42 @@ async function runAlgorithm() {
                     if (count <= 4) return 2;
                     return 3;
                 }
-
+                
                 const weight = safetyMap[param.safety] + fastenerMap[param.fastener] + toolMap[param.tool] + fastenerCountPenalty(param.count);
                 edgeWeights[edgeKey] = weight;
             });
         }
-
+        
         // Prepare request payload
         const payload = {
             target: state.targetComponent,
             edge_weights: edgeWeights
         };
-
+        
         if (algorithm === 'genetic') {
             payload.population_size = parseInt(document.getElementById('pop-size').value);
             payload.generations = parseInt(document.getElementById('generations').value);
             payload.mutation_rate = parseFloat(document.getElementById('mutation-rate').value);
             payload.crossover_rate = parseFloat(document.getElementById('crossover-rate').value);
         }
-
+        
         const endpoint = algorithm === 'genetic' ? 'genetic' : 'dijkstra';
         const response = await fetch(`${API_BASE}/${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
+        
         if (!response.ok) {
             const error = await response.json();
             throw new Error(error.error || 'Algorithm failed');
         }
-
+        
         const result = await response.json();
         state.currentSequence = result.path;
         displayResults(result);
         showAnimationControls();
-
+        
     } catch (error) {
         console.error('Error running algorithm:', error);
         showError(error.message || 'Failed to run algorithm');
@@ -429,9 +386,9 @@ function displayResults(result) {
                 ${result.fitness ? `<span>Fitness: ${result.fitness.toFixed(4)}</span>` : ''}
             </div>
             <div class="path-steps" id="path-steps">
-                ${result.path.map((step, index) =>
-        `<div class="path-step" data-step="${index}">${index + 1}. ${step}</div>`
-    ).join('')}
+                ${result.path.map((step, index) => 
+                    `<div class="path-step" data-step="${index}">${index + 1}. ${step}</div>`
+                ).join('')}
             </div>
         </div>
     `;
@@ -447,12 +404,12 @@ function showAnimationControls() {
 // Play Animation
 function playAnimation() {
     if (!state.currentSequence) return;
-
+    
     pauseAnimation(); // Clear any existing animation
-
+    
     state.currentStep = 0;
     updateAnimationStep(0);
-
+    
     state.animationInterval = setInterval(() => {
         state.currentStep++;
         if (state.currentStep >= state.currentSequence.length) {
@@ -481,7 +438,7 @@ function resetAnimation() {
 // Update Animation Step
 function updateAnimationStep(step) {
     document.getElementById('animation-step').textContent = step;
-
+    
     // Update visual steps
     document.querySelectorAll('.path-step').forEach((el, index) => {
         el.classList.remove('active', 'completed');
@@ -491,7 +448,7 @@ function updateAnimationStep(step) {
             el.classList.add('completed');
         }
     });
-
+    
     // Update 3D model highlighting (if model is loaded)
     if (state.model && state.currentSequence[step]) {
         highlightComponent(state.currentSequence[step]);
@@ -502,15 +459,15 @@ function updateAnimationStep(step) {
 function initialize3DViewer() {
     const container = document.getElementById('model-viewer');
     if (!container) return;
-
+    
     // Scene setup
     state.scene = new THREE.Scene();
     state.scene.background = new THREE.Color(0x1a1a1a);
-
+    
     // Camera setup
     state.camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     state.camera.position.set(0, 0, 5);
-
+    
     // Renderer setup
     state.renderer = new THREE.WebGLRenderer({ antialias: true });
     state.renderer.setSize(container.clientWidth, container.clientHeight);
@@ -523,11 +480,11 @@ function initialize3DViewer() {
         state.controls.enableDamping = true;
         state.controls.dampingFactor = 0.05;
     }
-
+    
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     state.scene.add(ambientLight);
-
+    
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 5, 5);
     directionalLight.castShadow = true;
@@ -537,7 +494,7 @@ function initialize3DViewer() {
     const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
     directionalLight2.position.set(-5, -5, -5);
     state.scene.add(directionalLight2);
-
+    
     // Load model selector
     document.getElementById('model-selector').addEventListener('change', async (e) => {
         const modelName = e.target.value;
@@ -546,14 +503,14 @@ function initialize3DViewer() {
             loadModel(modelName);
         }
     });
-
+    
     // Placeholder geometry (until models are loaded)
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshStandardMaterial({ color: 0x555555 });
     const placeholder = new THREE.Mesh(geometry, material);
     state.scene.add(placeholder);
     state.model = placeholder; // Store as current model
-
+    
     // Render loop
     function animate() {
         requestAnimationFrame(animate);
@@ -563,7 +520,7 @@ function initialize3DViewer() {
         state.renderer.render(state.scene, state.camera);
     }
     animate();
-
+    
     // Handle window resize
     window.addEventListener('resize', () => {
         state.camera.aspect = container.clientWidth / container.clientHeight;
@@ -575,27 +532,27 @@ function initialize3DViewer() {
 // Load 3D Model
 function loadModel(modelName) {
     if (!modelName) return;
-
+    
     console.log(`Loading model: ${modelName}`);
-
+    
     // Clear existing model and parts
     if (state.model) {
         state.scene.remove(state.model);
         state.model = null;
     }
     state.modelParts = {};
-
+    
     // Check if GLTFLoader is available
     if (typeof THREE.GLTFLoader === 'undefined') {
         console.warn('GLTFLoader not available, using placeholder');
-        // Create placeholder geometry
-        const geometry = new THREE.BoxGeometry(2, 2, 2);
-        const material = new THREE.MeshStandardMaterial({ color: 0x4a90e2 });
-        state.model = new THREE.Mesh(geometry, material);
-        state.scene.add(state.model);
+    // Create placeholder geometry
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const material = new THREE.MeshStandardMaterial({ color: 0x4a90e2 });
+    state.model = new THREE.Mesh(geometry, material);
+    state.scene.add(state.model);
         return;
     }
-
+    
     // Try to load GLTF/GLB model from Blender
     const loader = new THREE.GLTFLoader();
     const modelPath = `models/${modelName}.glb`;  // Try .glb first
@@ -730,18 +687,18 @@ function initializeKnowledgeGraph() {
 function renderKnowledgeGraph() {
     const container = document.getElementById('knowledge-graph');
     if (!container || !state.graphData) return;
-
+    
     const nodes = new vis.DataSet(state.graphData.nodes.map(node => ({
         ...node,
         color: { background: '#ffffff', border: '#0969da', highlight: { background: '#ddf4ff', border: '#0969da' } }
     })));
-
+    
     const edges = new vis.DataSet(state.graphData.edges.map(edge => ({
         ...edge,
         arrows: 'to',
         color: { color: '#656d76' }
     })));
-
+    
     const data = { nodes, edges };
     const options = {
         nodes: {
@@ -768,9 +725,9 @@ function renderKnowledgeGraph() {
             dragView: true
         }
     };
-
+    
     const network = new vis.Network(container, data, options);
-
+    
     // Highlight selected components and allow clicking to add
     network.on('click', (params) => {
         if (params.nodes.length > 0) {
@@ -782,7 +739,7 @@ function renderKnowledgeGraph() {
             renderParameters();
         }
     });
-
+    
     // Store network reference for future use
     state.network = network;
 }
