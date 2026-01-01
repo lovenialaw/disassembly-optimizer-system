@@ -903,6 +903,68 @@ function renderKnowledgeGraph() {
     state.network = network;
 }
 
+// Zoom Controls for Knowledge Graph
+function setupGraphZoomControls() {
+    document.getElementById('zoom-in-graph')?.addEventListener('click', () => {
+        if (state.network) {
+            const scale = state.network.getScale();
+            state.network.moveTo({ scale: scale * 1.2, animation: true });
+        }
+    });
+
+    document.getElementById('zoom-out-graph')?.addEventListener('click', () => {
+        if (state.network) {
+            const scale = state.network.getScale();
+            state.network.moveTo({ scale: scale * 0.8, animation: true });
+        }
+    });
+
+    document.getElementById('reset-graph')?.addEventListener('click', () => {
+        if (state.network) {
+            state.network.fit({ animation: true });
+        }
+    });
+}
+
+// Zoom Controls for 3D Viewer
+function setup3DZoomControls() {
+    document.getElementById('zoom-in-3d')?.addEventListener('click', () => {
+        if (state.camera) {
+            state.camera.position.multiplyScalar(0.9);
+            state.camera.updateProjectionMatrix();
+        }
+    });
+
+    document.getElementById('zoom-out-3d')?.addEventListener('click', () => {
+        if (state.camera) {
+            state.camera.position.multiplyScalar(1.1);
+            state.camera.updateProjectionMatrix();
+        }
+    });
+
+    document.getElementById('reset-3d')?.addEventListener('click', () => {
+        if (state.camera && state.model) {
+            // Calculate bounding box and center
+            const box = new THREE.Box3().setFromObject(state.model);
+            const center = box.getCenter(new THREE.Vector3());
+            const size = box.getSize(new THREE.Vector3());
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const distance = maxDim * 2;
+
+            // Reset camera position
+            state.camera.position.set(center.x, center.y, center.z + distance);
+            state.camera.lookAt(center);
+            state.camera.updateProjectionMatrix();
+
+            // Reset controls target if OrbitControls exists
+            if (state.controls) {
+                state.controls.target.copy(center);
+                state.controls.update();
+            }
+        }
+    });
+}
+
 // Show Error
 function showError(message) {
     const container = document.getElementById('results-container');

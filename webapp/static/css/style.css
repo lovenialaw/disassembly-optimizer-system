@@ -79,12 +79,53 @@ body {
     box-shadow: var(--shadow);
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
 .viewer-section h2,
 .graph-section h2 {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin: 0;
     color: var(--text-color);
+}
+
+.viewer-zoom-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.zoom-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+.zoom-btn:active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 .viewer-controls {
@@ -307,14 +348,15 @@ label {
 .parameters-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
+    gap: 20px;
 }
 
 .parameter-group {
-    padding: 12px;
+    padding: 16px;
     background: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 6px;
+    min-width: 0; /* Prevent overflow */
 }
 
 .parameter-group h3 {
@@ -328,7 +370,7 @@ label {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .parameter-row.full-width {
@@ -336,8 +378,16 @@ label {
 }
 
 .parameter-row label {
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     font-size: 13px;
+}
+
+.parameter-group h3 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 14px;
+    color: var(--text-color);
+    word-wrap: break-word;
 }
 
 .info-text {
