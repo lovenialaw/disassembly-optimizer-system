@@ -57,7 +57,7 @@ async function run() {
       DELETE r
       RETURN count(r) as deleted
     `);
-    const attachedCount = cleanupAttached.records[0]?.get('deleted') || 0;
+    const deletedAttached = cleanupAttached.records[0]?.get('deleted') || 0;
     
     // Delete all BLOCKS relationships
     const cleanupBlocks = await session.run(`
@@ -65,16 +65,16 @@ async function run() {
       DELETE r
       RETURN count(r) as deleted
     `);
-    const blocksCount = cleanupBlocks.records[0]?.get('deleted') || 0;
+    const deletedBlocks = cleanupBlocks.records[0]?.get('deleted') || 0;
     
-    const totalDeleted = blockedByCount + attachedCount + blocksCount;
+    const totalDeleted = blockedByCount + deletedAttached + deletedBlocks;
     if (totalDeleted > 0) {
       console.log(`   Removed ${totalDeleted} existing relationships:`);
       if (blockedByCount > 0) console.log(`     - blocked_by: ${blockedByCount}`);
-      if (attachedCount > 0) console.log(`     - ATTACHED_TO: ${attachedCount}`);
-      if (blocksCount > 0) console.log(`     - BLOCKS: ${blocksCount}`);
+      if (deletedAttached > 0) console.log(`     - ATTACHED_TO: ${deletedAttached}`);
+      if (deletedBlocks > 0) console.log(`     - BLOCKS: ${deletedBlocks}`);
     }
-
+    
     let attachedCount = 0;
     let blocksCount = 0;
 
