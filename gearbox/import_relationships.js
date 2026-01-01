@@ -12,7 +12,15 @@ const INPUT_FILE = "gearbox_metadata.json";
 // ==============================
 // LOAD DATA
 // ==============================
-const data = JSON.parse(fs.readFileSync(INPUT_FILE, "utf-8"));
+let data;
+try {
+  data = JSON.parse(fs.readFileSync(INPUT_FILE, "utf-8"));
+  console.log(`📁 Loaded ${data.length} items from ${INPUT_FILE}`);
+} catch (err) {
+  console.error(`❌ Failed to load ${INPUT_FILE}. Make sure you're running from the gearbox directory.`);
+  console.error("Error:", err.message);
+  process.exit(1);
+}
 
 // ==============================
 // CONNECT TO NEO4J
