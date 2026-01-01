@@ -40,18 +40,41 @@ async function run() {
   try {
     console.log("🚀 Starting relationship import...");
     
-    // Clean up old blocked_by relationships (lowercase, from old script runs)
-    console.log("🧹 Cleaning up old blocked_by relationships...");
-    const cleanupResult = await session.run(`
+    // Clean up ALL existing relationships to ensure database matches metadata exactly
+    console.log("🧹 Cleaning up all existing relationships...");
+    
+    // Delete old blocked_by relationships (lowercase, from old script runs)
+    const cleanupBlockedBy = await session.run(`
       MATCH ()-[r:blocked_by]->()
       DELETE r
       RETURN count(r) as deleted
     `);
-    const deletedCount = cleanupResult.records[0]?.get('deleted') || 0;
-    if (deletedCount > 0) {
-      console.log(`   Removed ${deletedCount} old blocked_by relationships`);
-    }
+    const blockedByCount = cleanupBlockedBy.records[0]?.get('deleted') || 0;
     
+    // Delete all ATTACHED_TO relationships
+    const cleanupAttached = await session.run(`
+      MATCH ()-[r:ATTACHED_TO]->()
+      DELETE r
+      RETURN count(r) as deleted
+    `);
+    const attachedCount = cleanupAttached.records[0]?.get('deleted') || 0;
+    
+    // Delete all BLOCKS relationships
+    const cleanupBlocks = await session.run(`
+      MATCH ()-[r:BLOCKS]->()
+      DELETE r
+      RETURN count(r) as deleted
+    `);
+    const blocksCount = cleanupBlocks.records[0]?.get('deleted') || 0;
+    
+    const totalDeleted = blockedByCount + attachedCount + blocksCount;
+    if (totalDeleted > 0) {
+      console.log(`   Removed ${totalDeleted} existing relationships:`);
+      if (blockedByCount > 0) console.log(`     - blocked_by: ${blockedByCount}`);
+      if (attachedCount > 0) console.log(`     - ATTACHED_TO: ${attachedCount}`);
+      if (blocksCount > 0) console.log(`     - BLOCKS: ${blocksCount}`);
+    }
+
     let attachedCount = 0;
     let blocksCount = 0;
 
