@@ -344,43 +344,105 @@ label {
     color: #a40e26;
 }
 
-/* Parameters Container - 4x4 Grid */
+/* Parameters Container - Table Layout */
 .parameters-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.parameter-group {
-    padding: 16px;
-    background: var(--hover-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    min-width: 0;
-    /* Prevent overflow */
+.parameters-table-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    width: 100%;
+    max-height: calc(100vh - 280px);
 }
 
-.parameter-group h3 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--text-color);
-}
-
-.parameter-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 10px;
-}
-
-.parameter-row.full-width {
-    grid-template-columns: 1fr;
-}
-
-.parameter-row label {
-    margin-bottom: 6px;
+.parameters-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-color);
     font-size: 13px;
+}
+
+.parameters-table thead {
+    background: var(--hover-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.parameters-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.parameters-table th.step-header {
+    min-width: 180px;
+    width: 20%;
+}
+
+.parameters-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+.parameters-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.parameters-table tbody tr:hover {
+    background-color: var(--hover-bg);
+}
+
+.parameters-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.step-name {
+    font-size: 13px;
+    line-height: 1.6;
+    min-width: 180px;
+}
+
+.step-name strong {
+    display: block;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.step-name .arrow {
+    display: block;
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: bold;
+    margin: 4px 0;
+}
+
+.parameters-table .select-input {
+    width: 100%;
+    min-width: 120px;
+    margin: 0;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+/* Responsive: Stack on smaller screens */
+@media (max-width: 1200px) {
+    .parameters-table-wrapper {
+        overflow-x: scroll;
+    }
+    
+    .parameters-table {
+        min-width: 800px;
+    }
 }
 
 .parameter-group h3 {
