@@ -356,7 +356,8 @@ label {
     background: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    min-width: 0; /* Prevent overflow */
+    min-width: 0;
+    /* Prevent overflow */
 }
 
 .parameter-group h3 {

@@ -256,65 +256,78 @@ function renderParameters() {
         return;
     }
 
-    // Create parameter groups for each edge
-    edgesToShow.forEach(edge => {
-        const from = edge.from;
-        const to = edge.to;
-        const edgeKey = edge.key || `${from}->${to}`;
+    // Create table structure for easier comparison
+    const table = document.createElement('div');
+    table.className = 'parameters-table-wrapper';
+    table.innerHTML = `
+        <table class="parameters-table">
+            <thead>
+                <tr>
+                    <th class="step-header">Disassembly Step</th>
+                    <th>Safety Risk</th>
+                    <th>Fastener Type</th>
+                    <th>Tool</th>
+                    <th># Fasteners</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${edgesToShow.map(edge => {
+                    const from = edge.from;
+                    const to = edge.to;
+                    const edgeKey = edge.key || `${from}->${to}`;
 
-        // Initialize parameters if not exists
-        if (!state.parameters[edgeKey]) {
-            state.parameters[edgeKey] = {
-                safety: 'Medium',
-                fastener: 'None',
-                tool: 'Pull',
-                count: 0
-            };
-        }
+                    // Initialize parameters if not exists
+                    if (!state.parameters[edgeKey]) {
+                        state.parameters[edgeKey] = {
+                            safety: 'Medium',
+                            fastener: 'None',
+                            tool: 'Pull',
+                            count: 0
+                        };
+                    }
 
-        const paramGroup = document.createElement('div');
-        paramGroup.className = 'parameter-group';
-        paramGroup.innerHTML = `
-            <h3>${from} → ${to}</h3>
-            <div class="parameter-row">
-                <label>
-                    Safety Risk
-                    <select class="select-input param-input" data-edge="${edgeKey}" data-param="safety">
-                        ${state.parameterOptions.safety.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].safety === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
-                    </select>
-                </label>
-                <label>
-                    Fastener Type
-                    <select class="select-input param-input" data-edge="${edgeKey}" data-param="fastener">
-                        ${state.parameterOptions.fasteners.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].fastener === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
-                    </select>
-                </label>
-            </div>
-            <div class="parameter-row">
-                <label>
-                    Tool
-                    <select class="select-input param-input" data-edge="${edgeKey}" data-param="tool">
-                        ${state.parameterOptions.tools.map(opt =>
-            `<option value="${opt}" ${state.parameters[edgeKey].tool === opt ? 'selected' : ''}>${opt}</option>`
-        ).join('')}
-                    </select>
-                </label>
-                <label>
-                    Number of Fasteners
-                    <select class="select-input param-input" data-edge="${edgeKey}" data-param="count">
-                        ${state.parameterOptions.fastener_counts.map(count =>
-            `<option value="${count}" ${state.parameters[edgeKey].count == count ? 'selected' : ''}>${count}</option>`
-        ).join('')}
-                    </select>
-                </label>
-            </div>
-        `;
-        container.appendChild(paramGroup);
-    });
+                    return `
+                        <tr>
+                            <td class="step-name">
+                                <strong>${from}</strong><br>
+                                <span class="arrow">→</span><br>
+                                <strong>${to}</strong>
+                            </td>
+                            <td>
+                                <select class="select-input param-input" data-edge="${edgeKey}" data-param="safety">
+                                    ${state.parameterOptions.safety.map(opt =>
+                                        `<option value="${opt}" ${state.parameters[edgeKey].safety === opt ? 'selected' : ''}>${opt}</option>`
+                                    ).join('')}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="select-input param-input" data-edge="${edgeKey}" data-param="fastener">
+                                    ${state.parameterOptions.fasteners.map(opt =>
+                                        `<option value="${opt}" ${state.parameters[edgeKey].fastener === opt ? 'selected' : ''}>${opt}</option>`
+                                    ).join('')}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="select-input param-input" data-edge="${edgeKey}" data-param="tool">
+                                    ${state.parameterOptions.tools.map(opt =>
+                                        `<option value="${opt}" ${state.parameters[edgeKey].tool === opt ? 'selected' : ''}>${opt}</option>`
+                                    ).join('')}
+                                </select>
+                            </td>
+                            <td>
+                                <select class="select-input param-input" data-edge="${edgeKey}" data-param="count">
+                                    ${state.parameterOptions.fastener_counts.map(count =>
+                                        `<option value="${count}" ${state.parameters[edgeKey].count == count ? 'selected' : ''}>${count}</option>`
+                                    ).join('')}
+                                </select>
+                            </td>
+                        </tr>
+                    `;
+                }).join('')}
+            </tbody>
+        </table>
+    `;
+    container.appendChild(table);
 
     // Add event listeners for parameter changes
     document.querySelectorAll('.param-input').forEach(input => {
