@@ -88,7 +88,7 @@ async function switchModel(modelName) {
         state.validPaths = [];
         state.pathEdges = [];
         renderSelectedComponents();
-        
+
         // Refresh knowledge graph
         renderKnowledgeGraph();
 
@@ -761,11 +761,11 @@ function renderKnowledgeGraph() {
         // Extract unique nodes and edges from all valid paths
         const nodeSet = new Set();
         const edgeSet = new Set();
-        
+
         state.validPaths.forEach(path => {
             path.forEach(node => nodeSet.add(node));
             for (let i = 0; i < path.length - 1; i++) {
-                edgeSet.add(`${path[i]}->${path[i+1]}`);
+                edgeSet.add(`${path[i]}->${path[i + 1]}`);
             }
         });
 
@@ -773,8 +773,8 @@ function renderKnowledgeGraph() {
         nodesToShow = Array.from(nodeSet).map(nodeId => ({
             id: nodeId,
             label: nodeId,
-            color: { 
-                background: '#ffffff', 
+            color: {
+                background: '#ffffff',
                 border: '#0969da',
                 highlight: { background: '#ddf4ff', border: '#0969da' }
             }
@@ -814,7 +814,7 @@ function renderKnowledgeGraph() {
     if (optimalPath && optimalPath.length > 1) {
         const optimalEdges = new Set();
         for (let i = 0; i < optimalPath.length - 1; i++) {
-            optimalEdges.add(`${optimalPath[i]}->${optimalPath[i+1]}`);
+            optimalEdges.add(`${optimalPath[i]}->${optimalPath[i + 1]}`);
         }
 
         edgesToShow = edgesToShow.map(edge => {
@@ -847,6 +847,15 @@ function renderKnowledgeGraph() {
             return node;
         });
     }
+
+    // Destroy existing network if it exists
+    if (state.network) {
+        state.network.destroy();
+        state.network = null;
+    }
+
+    // Clear container
+    container.innerHTML = '';
 
     const nodes = new vis.DataSet(nodesToShow);
     const edges = new vis.DataSet(edgesToShow);
