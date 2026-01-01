@@ -16,9 +16,7 @@ const state = {
     controls: null,
     modelParts: {},  // Store individual parts of the model for highlighting
     validPaths: [],  // All valid disassembly paths to target
-    pathEdges: [],   // Unique edges from all valid paths
-    optimalPath: null,  // Optimal path found by algorithm
-    network: null     // Reference to vis.js network instance
+    pathEdges: []    // Unique edges from all valid paths
 };
 
 // API Base URL
@@ -89,9 +87,10 @@ async function switchModel(modelName) {
         state.currentSequence = null;
         state.validPaths = [];
         state.pathEdges = [];
-        state.optimalPath = null;
         renderSelectedComponents();
-        renderKnowledgeGraph();  // Refresh graph to clear highlights
+        
+        // Refresh knowledge graph
+        renderKnowledgeGraph();
 
         console.log(`Switched to model: ${modelName}`);
     } catch (error) {
@@ -132,7 +131,7 @@ async function loadValidPaths(target) {
         const data = await response.json();
         state.validPaths = data.paths;
         state.pathEdges = extractUniqueEdgesFromPaths(data.paths);
-        // Refresh knowledge graph to show valid paths
+        // Refresh knowledge graph to show only valid paths
         renderKnowledgeGraph();
         return data;
     } catch (error) {
@@ -426,9 +425,7 @@ async function runAlgorithm() {
 
         const result = await response.json();
         state.currentSequence = result.path;
-        state.optimalPath = result.path;  // Store optimal path for graph highlighting
         displayResults(result);
-        renderKnowledgeGraph();  // Refresh graph to highlight optimal path
         showAnimationControls();
 
     } catch (error) {
@@ -749,62 +746,106 @@ function initializeKnowledgeGraph() {
 // Render Knowledge Graph
 function renderKnowledgeGraph() {
     const container = document.getElementById('knowledge-graph');
-    if (!container || !state.graphData) return;
+    if (!container) return;
 
-    // Color nodes based on whether they're in valid paths or optimal path
-    const nodes = new vis.DataSet(state.graphData.nodes.map(node => {
-        const nodeId = node.id;
-        let nodeColor = { background: '#ffffff', border: '#656d76', highlight: { background: '#ddf4ff', border: '#0969da' } };
+    // If target is selected and we have valid paths, show only those paths
+    let nodesToShow = [];
+    let edgesToShow = [];
+    let optimalPath = state.currentSequence || null;
+
+    if (state.targetComponent && state.validPaths && state.validPaths.length > 0) {
+        // Extract unique nodes and edges from all valid paths
+        const nodeSet = new Set();
+        const edgeSet = new Set();
         
-        // Highlight target component
-        if (state.targetComponent === nodeId) {
-            nodeColor = { background: '#fff3cd', border: '#ffc107', highlight: { background: '#ffe69c', border: '#ffc107' } };
-        }
-        // Highlight nodes in optimal path (strongest highlight)
-        else if (state.optimalPath && state.optimalPath.includes(nodeId)) {
-            nodeColor = { background: '#d1e7dd', border: '#198754', highlight: { background: '#a3cfbb', border: '#198754' } };
-        }
-        // Highlight nodes in valid paths
-        else if (state.validPaths.length > 0 && state.validPaths.some(path => path.includes(nodeId))) {
-            nodeColor = { background: '#cfe2ff', border: '#0d6efd', highlight: { background: '#9ec5fe', border: '#0d6efd' } };
-        }
-        
-        return {
+        state.validPaths.forEach(path => {
+            path.forEach(node => nodeSet.add(node));
+            for (let i = 0; i < path.length - 1; i++) {
+                edgeSet.add(`${path[i]}->${path[i+1]}`);
+            }
+        });
+
+        // Create nodes array
+        nodesToShow = Array.from(nodeSet).map(nodeId => ({
+            id: nodeId,
+            label: nodeId,
+            color: { 
+                background: '#ffffff', 
+                border: '#0969da',
+                highlight: { background: '#ddf4ff', border: '#0969da' }
+            }
+        }));
+
+        // Create edges array from valid paths
+        edgesToShow = Array.from(edgeSet).map(edgeKey => {
+            const [from, to] = edgeKey.split('->');
+            return {
+                from: from,
+                to: to,
+                id: edgeKey,
+                arrows: 'to',
+                color: { color: '#656d76' },
+                width: 2
+            };
+        });
+    } else if (state.graphData) {
+        // Show full graph if no target selected
+        nodesToShow = state.graphData.nodes.map(node => ({
             ...node,
-            color: nodeColor
-        };
-    }));
-
-    // Color edges based on whether they're in valid paths or optimal path
-    const edges = new vis.DataSet(state.graphData.edges.map(edge => {
-        const edgeKey = `${edge.from}->${edge.to}`;
-        let edgeColor = '#656d76';
-        let edgeWidth = 2;
-        
-        // Highlight edges in optimal path (strongest highlight)
-        if (state.optimalPath) {
-            const optimalPathEdges = [];
-            for (let i = 0; i < state.optimalPath.length - 1; i++) {
-                optimalPathEdges.push(`${state.optimalPath[i]}->${state.optimalPath[i+1]}`);
-            }
-            if (optimalPathEdges.includes(edgeKey)) {
-                edgeColor = '#198754';
-                edgeWidth = 4;
-            }
-        }
-        // Highlight edges in valid paths (lighter highlight)
-        else if (state.pathEdges.length > 0 && state.pathEdges.some(e => e.key === edgeKey)) {
-            edgeColor = '#0d6efd';
-            edgeWidth = 3;
-        }
-        
-        return {
+            color: { background: '#ffffff', border: '#0969da', highlight: { background: '#ddf4ff', border: '#0969da' } }
+        }));
+        edgesToShow = state.graphData.edges.map(edge => ({
             ...edge,
             arrows: 'to',
-            color: { color: edgeColor },
-            width: edgeWidth
-        };
-    }));
+            color: { color: '#656d76' },
+            width: 2
+        }));
+    } else {
+        // No graph data available
+        container.innerHTML = '<p class="info-text">No graph data available</p>';
+        return;
+    }
+
+    // Highlight optimal path edges if available
+    if (optimalPath && optimalPath.length > 1) {
+        const optimalEdges = new Set();
+        for (let i = 0; i < optimalPath.length - 1; i++) {
+            optimalEdges.add(`${optimalPath[i]}->${optimalPath[i+1]}`);
+        }
+
+        edgesToShow = edgesToShow.map(edge => {
+            const edgeKey = edge.id || `${edge.from}->${edge.to}`;
+            if (optimalEdges.has(edgeKey)) {
+                return {
+                    ...edge,
+                    color: { color: '#28a745' }, // Green for optimal path
+                    width: 4, // Thicker line
+                    dashes: false
+                };
+            }
+            return edge;
+        });
+
+        // Highlight optimal path nodes
+        const optimalNodes = new Set(optimalPath);
+        nodesToShow = nodesToShow.map(node => {
+            if (optimalNodes.has(node.id)) {
+                return {
+                    ...node,
+                    color: {
+                        background: '#d4edda', // Light green
+                        border: '#28a745', // Green border
+                        highlight: { background: '#c3e6cb', border: '#28a745' }
+                    },
+                    font: { ...node.font, bold: true }
+                };
+            }
+            return node;
+        });
+    }
+
+    const nodes = new vis.DataSet(nodesToShow);
+    const edges = new vis.DataSet(edgesToShow);
 
     const data = { nodes, edges };
     const options = {
@@ -814,6 +855,7 @@ function renderKnowledgeGraph() {
             margin: 10
         },
         edges: {
+            width: 2,
             smooth: { type: 'curvedCW', roundness: 0.3 }
         },
         layout: {
@@ -833,18 +875,6 @@ function renderKnowledgeGraph() {
     };
 
     const network = new vis.Network(container, data, options);
-
-    // Highlight selected components and allow clicking to add
-    network.on('click', (params) => {
-        if (params.nodes.length > 0) {
-            const nodeId = params.nodes[0];
-            if (!state.selectedComponents.includes(nodeId)) {
-                addComponentToSelection(nodeId);
-            }
-            // Re-render parameters to show edges involving this component
-            renderParameters();
-        }
-    });
 
     // Store network reference for future use
     state.network = network;
