@@ -101,6 +101,42 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Second Row: 3D Viewer and Knowledge Graph side by side -->
+            <div class="second-row">
+                <!-- 3D Model Viewer -->
+                <div class="viewer-section">
+                    <div class="section-header">
+                        <h2>3D Model Viewer</h2>
+                        <div class="viewer-zoom-controls">
+                            <button id="zoom-in-3d" class="zoom-btn" title="Zoom In">+</button>
+                            <button id="zoom-out-3d" class="zoom-btn" title="Zoom Out">−</button>
+                            <button id="reset-3d" class="zoom-btn" title="Reset View">⌂</button>
+                        </div>
+                    </div>
+                    <div class="viewer-controls">
+                        <select id="model-selector" class="select-input">
+                            <option value="">Select Model...</option>
+                            <option value="gearbox">Gearbox</option>
+                            <option value="kettle">Kettle</option>
+                        </select>
+                    </div>
+                    <div id="model-viewer" class="model-viewer"></div>
+                </div>
+
+                <!-- Knowledge Graph -->
+                <div class="graph-section">
+                    <div class="section-header">
+                        <h2>Knowledge Graph</h2>
+                        <div class="viewer-zoom-controls">
+                            <button id="zoom-in-graph" class="zoom-btn" title="Zoom In">+</button>
+                            <button id="zoom-out-graph" class="zoom-btn" title="Zoom Out">−</button>
+                            <button id="reset-graph" class="zoom-btn" title="Reset View">⌂</button>
+                        </div>
+                    </div>
+                    <div id="knowledge-graph" class="knowledge-graph"></div>
+                </div>
+            </div>
         </main>
     </div>
 
