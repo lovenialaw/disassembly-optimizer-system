@@ -221,18 +221,27 @@ function renderParameters() {
     const container = document.getElementById('parameters-container');
     container.innerHTML = '';
 
-    // Show parameters for all edges in the graph, or for selected component sequence
-    if (!state.graphData || !state.graphData.edges || state.graphData.edges.length === 0) {
-        container.innerHTML = '<p class="info-text">Loading graph data...</p>';
+    // Show parameters only for edges in valid paths (if target is selected)
+    let edgesToShow = [];
+    
+    if (state.targetComponent && state.pathEdges && state.pathEdges.length > 0) {
+        // Show edges from valid paths
+        edgesToShow = state.pathEdges;
+        container.innerHTML = `<p class="info-text">Found ${state.validPaths.length} valid path(s). Configure parameters for disassembly steps:</p>`;
+    } else if (!state.targetComponent) {
+        container.innerHTML = '<p class="info-text">Select a target component to disassemble first</p>';
         return;
+    } else {
+        // Fallback: show all graph edges if paths not loaded yet
+        if (!state.graphData || !state.graphData.edges || state.graphData.edges.length === 0) {
+            container.innerHTML = '<p class="info-text">Loading valid paths...</p>';
+            return;
+        }
+        edgesToShow = state.graphData.edges.map(e => ({ from: e.from, to: e.to, key: `${e.from}->${e.to}` }));
     }
 
-    // Show parameters for all edges in the graph
-    // Users can configure parameters for any disassembly step
-    const edgesToShow = state.graphData.edges;
-
     if (edgesToShow.length === 0) {
-        container.innerHTML = '<p class="info-text">No graph edges available. Select a target component first.</p>';
+        container.innerHTML = '<p class="info-text">No edges to configure. Select a target component first.</p>';
         return;
     }
 
