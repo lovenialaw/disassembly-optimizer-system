@@ -81,10 +81,19 @@ body {
     flex-direction: column;
 }
 
-.viewer-section .animation-section {
+.results-section-viewer,
+.animation-section-viewer {
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px solid var(--border-color);
+}
+
+.results-section-viewer h3,
+.animation-section-viewer h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--text-color);
 }
 
 .section-header {
