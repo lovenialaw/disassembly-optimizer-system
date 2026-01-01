@@ -44,8 +44,8 @@ async function run() {
         if (component !== attachedTo) {
           await session.run(
             `
-            MERGE (a:Component {name: $component})
-            MERGE (b:Component {name: $attachedTo})
+            MATCH (a:Component {name: $component})
+            MATCH (b:Component {name: $attachedTo})
             MERGE (a)-[:ATTACHED_TO]->(b)
             `,
             { component, attachedTo }
@@ -68,8 +68,8 @@ async function run() {
 
         await session.run(
           `
-          MERGE (blocked:Component {name: $blocked})
-          MERGE (blocker:Component {name: $blocker})
+          MATCH (blocked:Component {name: $blocked})
+          MATCH (blocker:Component {name: $blocker})
           MERGE (blocker)-[:BLOCKS]->(blocked)
           `,
           { blocked: component, blocker }
