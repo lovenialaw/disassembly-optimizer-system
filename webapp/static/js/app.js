@@ -572,14 +572,31 @@ function initialize3DViewer() {
     directionalLight2.position.set(-5, -5, -5);
     state.scene.add(directionalLight2);
 
-    // Load model selector
-    document.getElementById('model-selector').addEventListener('change', async (e) => {
-        const modelName = e.target.value;
+    // Load model selector (both selectors - top and in 3D viewer)
+    const modelSelectorTop = document.getElementById('model-selector-top');
+    const modelSelector3D = document.getElementById('model-selector');
+    
+    const handleModelChange = async (modelName) => {
         if (modelName) {
             await switchModel(modelName);
             loadModel(modelName);
+            // Sync both selectors
+            if (modelSelectorTop) modelSelectorTop.value = modelName;
+            if (modelSelector3D) modelSelector3D.value = modelName;
         }
-    });
+    };
+    
+    if (modelSelectorTop) {
+        modelSelectorTop.addEventListener('change', async (e) => {
+            await handleModelChange(e.target.value);
+        });
+    }
+    
+    if (modelSelector3D) {
+        modelSelector3D.addEventListener('change', async (e) => {
+            await handleModelChange(e.target.value);
+        });
+    }
 
     // Placeholder geometry (until models are loaded)
     const geometry = new THREE.BoxGeometry(1, 1, 1);

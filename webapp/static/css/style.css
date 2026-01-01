@@ -70,29 +70,6 @@ body {
     gap: 24px;
 }
 
-.graph-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.results-section-top,
-.animation-section-top {
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 16px;
-    box-shadow: var(--shadow);
-}
-
-.results-section-top h2,
-.animation-section-top h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: var(--text-color);
-}
-
 .viewer-section,
 .graph-section {
     background: var(--bg-color);
@@ -209,6 +186,19 @@ body {
 .component-section {
     display: flex;
     flex-direction: column;
+}
+
+.model-selector-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.model-selector-section label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
 .algorithm-section,
