@@ -77,6 +77,14 @@ body {
     border-radius: 6px;
     padding: 16px;
     box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.viewer-section .animation-section {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-color);
 }
 
 .section-header {
