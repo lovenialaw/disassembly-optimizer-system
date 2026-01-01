@@ -314,29 +314,130 @@ def run_dijkstra():
         if not G.has_edge(u, v):
             G.add_edge(u, v, weight=5.0)  # Default weight
 
-    # Find start nodes
+    # Find all ancestors of the target (components that must be removed before target)
+    # This ensures we include ALL prerequisite components
+    ancestors = set()
+    if target in G_topology:
+        # Find all nodes that have a path to the target (they must be removed first)
+        for node in G_topology.nodes():
+            if node != target and nx.has_path(G_topology, node, target):
+                ancestors.add(node)
+    
+    # Find start nodes (components with no dependencies)
     start_nodes = [n for n in G_topology.nodes if G_topology.in_degree(n) == 0]
     if not start_nodes:
         start_nodes = list(G_topology.nodes)
 
-    # Run Dijkstra from all start nodes to target
-    best_path = None
-    best_cost = float("inf")
-
+    # Build a complete path that includes all ancestors
+    # Create subgraph with all ancestors and target
+    all_required_nodes = ancestors | {target}
+    
+    # Add start nodes that can reach the target
+    reachable_starts = []
     for start in start_nodes:
-        if start not in G:
-            continue
-        try:
-            # Check if there's a path from start to target
-            if nx.has_path(G, start, target):
-                path = nx.dijkstra_path(G, start, target, weight="weight")
-                cost = nx.dijkstra_path_length(
-                    G, start, target, weight="weight")
-                if cost < best_cost:
-                    best_cost = cost
-                    best_path = path
-        except (nx.NetworkXNoPath, nx.NodeNotFound):
-            pass
+        if start in G_topology and nx.has_path(G_topology, start, target):
+            reachable_starts.append(start)
+            all_required_nodes.add(start)
+    
+    if not reachable_starts:
+        return jsonify({'error': 'No valid path found. The target component cannot be reached from any start node.'}), 400
+    
+    # Create subgraph with all required nodes
+    subgraph = G_topology.subgraph(all_required_nodes)
+    
+    # Use topological sort to get correct order (all ancestors before target)
+    try:
+        topo_order = list(nx.topological_sort(subgraph))
+        # Ensure target is at the end
+        if target in topo_order:
+            topo_order.remove(target)
+            topo_order.append(target)
+        
+        # Find the best start node (one that appears earliest in topological order)
+        best_start = None
+        best_start_idx = len(topo_order)
+        for start in reachable_starts:
+            if start in topo_order:
+                idx = topo_order.index(start)
+                if idx < best_start_idx:
+                    best_start_idx = idx
+                    best_start = start
+        
+        if best_start:
+            # Build path from best_start through all ancestors to target
+            start_idx = topo_order.index(best_start)
+            complete_path = topo_order[start_idx:]
+        else:
+            # If start not in topo_order, find shortest path from any start, then merge
+            best_path_dijkstra = None
+            best_cost_dijkstra = float("inf")
+            for start in reachable_starts:
+                try:
+                    if nx.has_path(G, start, target):
+                        path = nx.dijkstra_path(G, start, target, weight="weight")
+                        cost = nx.dijkstra_path_length(G, start, target, weight="weight")
+                        if cost < best_cost_dijkstra:
+                            best_cost_dijkstra = cost
+                            best_path_dijkstra = path
+                except (nx.NetworkXNoPath, nx.NodeNotFound):
+                    pass
+            
+            if best_path_dijkstra:
+                # Merge dijkstra path with topological order to include all ancestors
+                seen = set(best_path_dijkstra)
+                complete_path = list(best_path_dijkstra)
+                # Add missing ancestors in correct topological order
+                for node in topo_order:
+                    if node not in seen and node in ancestors:
+                        # Insert in correct position (before target)
+                        if target in complete_path:
+                            target_idx = complete_path.index(target)
+                            complete_path.insert(target_idx, node)
+                        else:
+                            complete_path.append(node)
+                        seen.add(node)
+            else:
+                complete_path = topo_order
+        
+        # Calculate cost for complete path
+        complete_cost = 0
+        for i in range(len(complete_path) - 1):
+            if G.has_edge(complete_path[i], complete_path[i+1]):
+                complete_cost += G[complete_path[i]][complete_path[i+1]]["weight"]
+            elif G_topology.has_edge(complete_path[i], complete_path[i+1]):
+                # Edge exists in topology but not in weighted graph, use default
+                complete_cost += 5.0
+            else:
+                # Invalid edge, try to find intermediate path
+                try:
+                    intermediate_path = nx.shortest_path(G_topology, complete_path[i], complete_path[i+1])
+                    for j in range(len(intermediate_path) - 1):
+                        if G.has_edge(intermediate_path[j], intermediate_path[j+1]):
+                            complete_cost += G[intermediate_path[j]][intermediate_path[j+1]]["weight"]
+                        else:
+                            complete_cost += 5.0
+                except (nx.NetworkXNoPath):
+                    complete_cost += 10.0  # Penalty for missing edge
+        
+        best_path = complete_path
+        best_cost = complete_cost
+        
+    except (nx.NetworkXError, ValueError) as e:
+        # If topological sort fails, fall back to Dijkstra
+        best_path = None
+        best_cost = float("inf")
+        for start in reachable_starts:
+            if start not in G:
+                continue
+            try:
+                if nx.has_path(G, start, target):
+                    path = nx.dijkstra_path(G, start, target, weight="weight")
+                    cost = nx.dijkstra_path_length(G, start, target, weight="weight")
+                    if cost < best_cost:
+                        best_cost = cost
+                        best_path = path
+            except (nx.NetworkXNoPath, nx.NodeNotFound):
+                pass
 
     if not best_path:
         return jsonify({'error': 'No valid path found. Please check your component selection and parameters.'}), 400
