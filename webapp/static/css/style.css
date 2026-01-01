@@ -210,9 +210,8 @@ body {
 }
 
 .parameters-section {
-    overflow-y: auto;
-    max-height: calc(100vh - 100px);
-    min-height: calc(100vh - 130px);
+    overflow: visible;
+    height: auto;
 }
 
 /* Form Elements */
@@ -367,9 +366,9 @@ label {
 
 .parameters-table-wrapper {
     overflow-x: auto;
-    overflow-y: auto;
+    overflow-y: visible;
     width: 100%;
-    max-height: calc(100vh - 170px);
+    height: auto;
 }
 
 .parameters-table {
