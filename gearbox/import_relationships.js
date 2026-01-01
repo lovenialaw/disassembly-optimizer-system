@@ -39,7 +39,21 @@ async function run() {
 
   try {
     console.log("🚀 Starting relationship import...");
+    
+    // Clean up old blocked_by relationships (lowercase, from old script runs)
+    console.log("🧹 Cleaning up old blocked_by relationships...");
+    const cleanupResult = await session.run(`
+      MATCH ()-[r:blocked_by]->()
+      DELETE r
+      RETURN count(r) as deleted
+    `);
+    const deletedCount = cleanupResult.records[0]?.get('deleted') || 0;
+    if (deletedCount > 0) {
+      console.log(`   Removed ${deletedCount} old blocked_by relationships`);
+    }
+    
     let attachedCount = 0;
+    let blocksCount = 0;
 
     for (const item of data) {
 
@@ -65,10 +79,34 @@ async function run() {
         }
       }
 
+      // ----------------------------------
+      // blocked_by relationships
+      // (Blocker) → (Component) as BLOCKS
+      // ----------------------------------
+      for (const rawBlocker of item.properties.blocked_by || []) {
+        const blocker = rawBlocker.trim();
+
+        // 🚨 HARD STOP: No self-loops
+        if (component === blocker) {
+          console.warn(`⛔ Self-loop skipped: ${item.name}`);
+          continue;
+        }
+
+        await session.run(
+          `
+          MATCH (blocked:Component {name: $blocked})
+          MATCH (blocker:Component {name: $blocker})
+          MERGE (blocker)-[:BLOCKS]->(blocked)
+          `,
+          { blocked: component, blocker }
+        );
+        blocksCount++;
+      }
     }
 
     console.log(`✅ Relationships imported correctly`);
     console.log(`   - ATTACHED_TO: ${attachedCount} relationships`);
+    console.log(`   - BLOCKS: ${blocksCount} relationships`);
   } catch (err) {
     console.error("❌ Import failed:", err);
     console.error("Error details:", err.message);
