@@ -198,8 +198,7 @@ body {
 
 .parameters-section {
     overflow-y: auto;
-    max-height: calc(100vh - 200px);
-    min-height: 700px;
+    max-height: calc(100vh - 400px);
 }
 
 /* Form Elements */
@@ -345,150 +344,51 @@ label {
     color: #a40e26;
 }
 
-/* Parameters Container - Table Layout */
+/* Parameters Container - 4x4 Grid */
 .parameters-container {
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
-.parameters-table-wrapper {
-    overflow-x: auto;
+.parameter-group {
+    padding: 16px;
+    background: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    background: var(--bg-color);
+    min-width: 0;
+    /* Prevent overflow */
 }
 
-.parameters-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-.parameters-table thead {
-    background: var(--hover-bg);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.parameters-table th {
-    padding: 12px 16px;
-    text-align: left;
+.parameter-group h3 {
+    font-size: 14px;
     font-weight: 600;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--secondary-color);
-    border-bottom: 2px solid var(--border-color);
-    white-space: nowrap;
-}
-
-.parameters-table th.step-header {
-    min-width: 180px;
-    width: 25%;
-}
-
-.parameters-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: middle;
-}
-
-.parameters-table tbody tr {
-    transition: background-color 0.15s ease;
-}
-
-.parameters-table tbody tr:hover {
-    background-color: var(--hover-bg);
-}
-
-.parameters-table tbody tr:last-child td {
-    border-bottom: none;
-}
-
-.step-name {
-    font-size: 13px;
-    line-height: 1.6;
+    margin-bottom: 12px;
     color: var(--text-color);
 }
 
-.step-name strong {
+.parameter-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.parameter-row.full-width {
+    grid-template-columns: 1fr;
+}
+
+.parameter-row label {
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.parameter-group h3 {
+    font-size: 13px;
     font-weight: 600;
+    margin-bottom: 14px;
     color: var(--text-color);
-    display: block;
-    margin-bottom: 4px;
-}
-
-.step-name .arrow {
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 16px;
-    display: block;
-    margin: 4px 0;
-    text-align: center;
-}
-
-.parameters-table .select-input {
-    width: 100%;
-    min-width: 140px;
-    margin: 0;
-    padding: 8px 12px;
-    font-size: 13px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background: var(--bg-color);
-    color: var(--text-color);
-}
-
-.parameters-table .select-input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.1);
-}
-
-/* Responsive: Stack on smaller screens */
-@media (max-width: 1200px) {
-    .parameters-table th.step-header {
-        min-width: 150px;
-        width: 30%;
-    }
-
-    .parameters-table .select-input {
-        min-width: 120px;
-    }
-}
-
-@media (max-width: 768px) {
-    .parameters-table-wrapper {
-        border-radius: 4px;
-    }
-
-    .parameters-table {
-        font-size: 12px;
-    }
-
-    .parameters-table th,
-    .parameters-table td {
-        padding: 10px 12px;
-    }
-
-    .parameters-table th.step-header {
-        min-width: 130px;
-    }
-
-    .parameters-table .select-input {
-        min-width: 100px;
-        font-size: 12px;
-        padding: 6px 10px;
-    }
-
-    .step-name {
-        font-size: 12px;
-    }
-
-    .step-name .arrow {
-        font-size: 14px;
-        margin: 2px 0;
-    }
+    word-wrap: break-word;
 }
 
 .info-text {
