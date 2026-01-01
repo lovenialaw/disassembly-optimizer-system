@@ -8,7 +8,12 @@ import copy
 from pathlib import Path
 
 app = Flask(__name__, static_folder='static', static_url_path='')
-CORS(app)
+# CORS configuration - allow requests from GitHub Pages and localhost
+CORS(app, origins=[
+    "https://lovenialaw.github.io",
+    "http://localhost:5000",
+    "http://127.0.0.1:5000"
+])
 
 # Load metadata
 with open('gearbox_metadata.json', 'r') as f:
