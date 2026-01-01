@@ -30,6 +30,10 @@ async function run() {
   const session = driver.session();
 
   try {
+    console.log("🚀 Starting relationship import...");
+    let attachedCount = 0;
+    let blocksCount = 0;
+
     for (const item of data) {
 
       const component = item.name.trim();
@@ -50,6 +54,7 @@ async function run() {
             `,
             { component, attachedTo }
           );
+          attachedCount++;
         }
       }
 
@@ -74,12 +79,19 @@ async function run() {
           `,
           { blocked: component, blocker }
         );
+        blocksCount++;
       }
     }
 
-    console.log("✅ Relationships imported correctly");
+    console.log(`✅ Relationships imported correctly`);
+    console.log(`   - ATTACHED_TO: ${attachedCount} relationships`);
+    console.log(`   - BLOCKS: ${blocksCount} relationships`);
   } catch (err) {
     console.error("❌ Import failed:", err);
+    console.error("Error details:", err.message);
+    if (err.stack) {
+      console.error("Stack trace:", err.stack);
+    }
   } finally {
     await session.close();
     await driver.close();
