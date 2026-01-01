@@ -5,6 +5,7 @@ import networkx as nx
 import json
 import math
 import copy
+import os
 from pathlib import Path
 
 app = Flask(__name__, static_folder='static', static_url_path='')
@@ -15,8 +16,10 @@ CORS(app, origins=[
     "http://127.0.0.1:5000"
 ])
 
-# Load metadata
-with open('gearbox_metadata.json', 'r') as f:
+# Load metadata - handle both root and webapp directory contexts
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_metadata_path = os.path.join(_script_dir, 'gearbox_metadata.json')
+with open(_metadata_path, 'r') as f:
     metadata = json.load(f)
 
 # Mappings
