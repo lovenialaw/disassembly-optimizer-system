@@ -16,7 +16,9 @@ const state = {
     controls: null,
     modelParts: {},  // Store individual parts of the model for highlighting
     validPaths: [],  // All valid disassembly paths to target
-    pathEdges: []    // Unique edges from all valid paths
+    pathEdges: [],   // Unique edges from all valid paths
+    optimalPath: null,  // Optimal path found by algorithm
+    network: null     // Reference to vis.js network instance
 };
 
 // API Base URL
@@ -138,7 +140,7 @@ function extractUniqueEdgesFromPaths(paths) {
     const edgeSet = new Set();
     paths.forEach(path => {
         for (let i = 0; i < path.length - 1; i++) {
-            const edgeKey = `${path[i]}->${path[i+1]}`;
+            const edgeKey = `${path[i]}->${path[i + 1]}`;
             edgeSet.add(edgeKey);
         }
     });
@@ -223,7 +225,7 @@ function renderParameters() {
 
     // Show parameters only for edges in valid paths (if target is selected)
     let edgesToShow = [];
-    
+
     if (state.targetComponent && state.pathEdges && state.pathEdges.length > 0) {
         // Show edges from valid paths
         edgesToShow = state.pathEdges;
@@ -418,7 +420,9 @@ async function runAlgorithm() {
 
         const result = await response.json();
         state.currentSequence = result.path;
+        state.optimalPath = result.path;  // Store optimal path for graph highlighting
         displayResults(result);
+        renderKnowledgeGraph();  // Refresh graph to highlight optimal path
         showAnimationControls();
 
     } catch (error) {
