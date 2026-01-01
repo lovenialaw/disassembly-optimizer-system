@@ -434,6 +434,12 @@ def run_genetic():
     if not all_paths:
         return jsonify({'error': 'No valid paths found'}), 400
 
+    # Calculate population size based on factorial (n! where n = average path length)
+    avg_path_length = sum(len(p) for p in all_paths) / len(all_paths)
+    num_components = int(avg_path_length)
+    factorial_arrangements = math.factorial(num_components)
+    population_size = max(2, factorial_arrangements)  # Ensure at least 2 for crossover
+
     # Initialize population
     population = []
     for path in all_paths:
