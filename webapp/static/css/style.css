@@ -56,15 +56,15 @@ body {
 
 /* Main Content */
 .main-content {
-    display: grid;
-    grid-template-columns: 1fr 400px;
+    display: flex;
+    flex-direction: column;
     gap: 24px;
     padding: 24px;
     min-height: calc(100vh - 80px);
 }
 
-/* Left Panel */
-.left-panel {
+/* First Row: 3D Viewer and Knowledge Graph side by side */
+.first-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
@@ -93,8 +93,7 @@ body {
 
 .model-viewer {
     width: 100%;
-    height: calc(100vh - 200px);
-    min-height: 600px;
+    height: 500px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: #000;
@@ -103,20 +102,17 @@ body {
 
 .knowledge-graph {
     width: 100%;
-    height: calc(100vh - 200px);
-    min-height: 600px;
+    height: 500px;
     border: 1px solid var(--border-color);
     border-radius: 6px;
     background: var(--bg-color);
 }
 
-/* Right Panel */
-.right-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    overflow-y: auto;
-    max-height: calc(100vh - 100px);
+/* Second Row: Component Selection and Parameters side by side */
+.second-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
 }
 
 .control-section {
@@ -132,6 +128,36 @@ body {
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--text-color);
+}
+
+.control-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    color: var(--text-color);
+}
+
+.control-section h3:first-of-type {
+    margin-top: 0;
+}
+
+.component-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.algorithm-section,
+.results-section,
+.animation-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.parameters-section {
+    overflow-y: auto;
+    max-height: calc(100vh - 400px);
 }
 
 /* Form Elements */
@@ -277,19 +303,10 @@ label {
     color: #a40e26;
 }
 
-/* Parameters Container */
+/* Parameters Container - 4x4 Grid */
 .parameters-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    max-height: 600px;
-    overflow-y: auto;
-}
-
-/* Component Selection and Parameters Grid Layout */
-.controls-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
 
@@ -298,9 +315,6 @@ label {
     background: var(--hover-bg);
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 .parameter-group h3 {
@@ -395,31 +409,12 @@ label {
 }
 
 /* Responsive */
-@media (max-width: 1400px) {
-    .left-panel {
-        grid-template-columns: 1fr;
-    }
-    
-    .controls-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .control-section[style*="grid-column: span 2"] {
-        grid-column: span 1 !important;
-    }
-    
-    .parameters-container {
-        grid-template-columns: 1fr;
-    }
-}
-
 @media (max-width: 1200px) {
     .main-content {
         grid-template-columns: 1fr;
     }
-    
+
     .right-panel {
         max-height: none;
     }
 }
-
