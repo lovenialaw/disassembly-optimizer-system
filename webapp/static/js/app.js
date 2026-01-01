@@ -195,6 +195,15 @@ function renderParameters() {
     const container = document.getElementById('parameters-container');
     container.innerHTML = '';
 
+    // Check if parameterOptions is loaded
+    if (!state.parameterOptions) {
+        container.innerHTML = '<p class="info-text">Loading parameter options...</p>';
+        loadParameterOptions().then(() => {
+            renderParameters(); // Retry after loading
+        });
+        return;
+    }
+
     // Show parameters for all edges in the graph, or for selected component sequence
     if (!state.graphData || !state.graphData.edges || state.graphData.edges.length === 0) {
         container.innerHTML = '<p class="info-text">Loading graph data...</p>';
