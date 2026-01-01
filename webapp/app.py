@@ -392,7 +392,6 @@ def run_dijkstra():
 @app.route('/api/genetic', methods=['POST'])
 def run_genetic():
     """Run Genetic Algorithm"""
-    import math
     data = request.json
     target = data.get('target')
     edge_weights_data = data.get('edge_weights', {})
