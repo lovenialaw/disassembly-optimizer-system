@@ -578,11 +578,16 @@ function initialize3DViewer() {
     
     const handleModelChange = async (modelName) => {
         if (modelName) {
-            await switchModel(modelName);
-            loadModel(modelName);
-            // Sync both selectors
-            if (modelSelectorTop) modelSelectorTop.value = modelName;
-            if (modelSelector3D) modelSelector3D.value = modelName;
+            try {
+                await switchModel(modelName);
+                // Load the 3D model automatically
+                loadModel(modelName);
+                // Sync both selectors
+                if (modelSelectorTop) modelSelectorTop.value = modelName;
+                if (modelSelector3D) modelSelector3D.value = modelName;
+            } catch (error) {
+                console.error('Error switching model:', error);
+            }
         }
     };
     
