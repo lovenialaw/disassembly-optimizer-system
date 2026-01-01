@@ -40,7 +40,6 @@ async function run() {
   try {
     console.log("🚀 Starting relationship import...");
     let attachedCount = 0;
-    let blocksCount = 0;
 
     for (const item of data) {
 
@@ -66,34 +65,10 @@ async function run() {
         }
       }
 
-      // ----------------------------------
-      // blocked_by relationships
-      // (Blocker) → (Component)
-      // ----------------------------------
-      for (const rawBlocker of item.properties.blocked_by || []) {
-        const blocker = rawBlocker.trim();
-
-        // 🚨 HARD STOP: No self-loops
-        if (component === blocker) {
-          console.warn(`⛔ Self-loop skipped: ${item.name}`);
-          continue;
-        }
-
-        await session.run(
-          `
-          MATCH (blocked:Component {name: $blocked})
-          MATCH (blocker:Component {name: $blocker})
-          MERGE (blocker)-[:BLOCKS]->(blocked)
-          `,
-          { blocked: component, blocker }
-        );
-        blocksCount++;
-      }
     }
 
     console.log(`✅ Relationships imported correctly`);
     console.log(`   - ATTACHED_TO: ${attachedCount} relationships`);
-    console.log(`   - BLOCKS: ${blocksCount} relationships`);
   } catch (err) {
     console.error("❌ Import failed:", err);
     console.error("Error details:", err.message);
