@@ -427,6 +427,8 @@ async function runAlgorithm() {
         state.currentSequence = result.path;
         displayResults(result);
         showAnimationControls();
+        // Refresh knowledge graph to highlight optimal path
+        renderKnowledgeGraph();
 
     } catch (error) {
         console.error('Error running algorithm:', error);
