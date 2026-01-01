@@ -450,7 +450,7 @@ label {
         min-width: 150px;
         width: 30%;
     }
-    
+
     .parameters-table .select-input {
         min-width: 120px;
     }
@@ -460,42 +460,34 @@ label {
     .parameters-table-wrapper {
         border-radius: 4px;
     }
-    
+
     .parameters-table {
         font-size: 12px;
     }
-    
+
     .parameters-table th,
     .parameters-table td {
         padding: 10px 12px;
     }
-    
+
     .parameters-table th.step-header {
         min-width: 130px;
     }
-    
+
     .parameters-table .select-input {
         min-width: 100px;
         font-size: 12px;
         padding: 6px 10px;
     }
-    
+
     .step-name {
         font-size: 12px;
     }
-    
+
     .step-name .arrow {
         font-size: 14px;
         margin: 2px 0;
     }
-}
-
-.parameter-group h3 {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 14px;
-    color: var(--text-color);
-    word-wrap: break-word;
 }
 
 .info-text {
