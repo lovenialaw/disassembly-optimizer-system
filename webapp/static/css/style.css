@@ -198,7 +198,8 @@ body {
 
 .parameters-section {
     overflow-y: auto;
-    max-height: calc(100vh - 400px);
+    max-height: calc(100vh - 200px);
+    min-height: 700px;
 }
 
 /* Form Elements */
