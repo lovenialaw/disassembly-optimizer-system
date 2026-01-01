@@ -53,7 +53,10 @@ async function loadGraphData() {
         const response = await fetch(`${API_BASE}/graph`);
         state.graphData = await response.json();
         renderKnowledgeGraph();
-        renderParameters(); // Render parameters for all graph edges initially
+        // Only render parameters if parameterOptions is loaded
+        if (state.parameterOptions) {
+            renderParameters(); // Render parameters for all graph edges initially
+        }
     } catch (error) {
         console.error('Error loading graph:', error);
     }
@@ -72,7 +75,7 @@ async function switchModel(modelName) {
         if (!contentType || !contentType.includes('application/json')) {
             const text = await response.text();
             console.error('Non-JSON response:', text.substring(0, 200));
-            throw new Error(`Server returned ${response.status}: ${response.statusText}`);
+            throw new Error(`Server returned ${response.status}: ${response.statusText}. Make sure the backend is deployed with the latest code.`);
         }
         
         const result = await response.json();
@@ -85,6 +88,12 @@ async function switchModel(modelName) {
         // Reload components and graph data
         await loadComponents();
         await loadGraphData();
+        
+        // Ensure parameterOptions is loaded before rendering parameters
+        if (!state.parameterOptions) {
+            await loadParameterOptions();
+        }
+        renderParameters(); // Render parameters after everything is loaded
         
         // Clear selected components and parameters
         state.selectedComponents = [];

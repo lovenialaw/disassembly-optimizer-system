@@ -58,7 +58,7 @@ def load_metadata(model_name='gearbox'):
     global metadata, G_topology, current_model
     metadata_file = f'{model_name}_metadata.json'
     metadata_path = os.path.join(_script_dir, metadata_file)
-    
+
     try:
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
@@ -86,7 +86,10 @@ FASTENER_MAP = {
     "Snap fit": 1.5,
     "Spring": 1.5,
     "Press fit": 3,
-    "None": 1
+    "None": 1,
+    # Kettle-specific fasteners
+    "Screws": 2,
+    "Wires": 1.5
 }
 
 TOOL_MAP = {
@@ -98,7 +101,11 @@ TOOL_MAP = {
     "Bearing splitter & hydraulic press": 3,
     "Heel bar": 1.5,
     "Gear puller": 2,
-    "Push": 1
+    "Push": 1,
+    # Kettle-specific tools
+    "Philips screwdriver": 1.5,
+    "Hand": 1,
+    "Wire cutter": 2
 }
 
 
