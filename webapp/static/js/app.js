@@ -170,7 +170,9 @@ function initializeEventListeners() {
         } else {
             state.validPaths = [];
             state.pathEdges = [];
+            state.currentSequence = null;
             renderParameters();
+            renderKnowledgeGraph(); // Show full graph when no target selected
         }
     });
 
