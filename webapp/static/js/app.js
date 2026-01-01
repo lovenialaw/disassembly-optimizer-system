@@ -757,7 +757,12 @@ function renderKnowledgeGraph() {
     let edgesToShow = [];
     let optimalPath = state.currentSequence || null;
 
+    // Debug logging
+    console.log('renderKnowledgeGraph - targetComponent:', state.targetComponent);
+    console.log('renderKnowledgeGraph - validPaths:', state.validPaths?.length || 0);
+
     if (state.targetComponent && state.validPaths && state.validPaths.length > 0) {
+        console.log('Showing only valid paths for target:', state.targetComponent);
         // Extract unique nodes and edges from all valid paths
         const nodeSet = new Set();
         const edgeSet = new Set();
@@ -792,8 +797,9 @@ function renderKnowledgeGraph() {
                 width: 2
             };
         });
-    } else if (state.graphData) {
-        // Show full graph if no target selected
+    } else if (!state.targetComponent && state.graphData) {
+        // Show full graph only if no target selected
+        console.log('Showing full graph (no target selected)');
         nodesToShow = state.graphData.nodes.map(node => ({
             ...node,
             color: { background: '#ffffff', border: '#0969da', highlight: { background: '#ddf4ff', border: '#0969da' } }
@@ -805,8 +811,12 @@ function renderKnowledgeGraph() {
             width: 2
         }));
     } else {
-        // No graph data available
-        container.innerHTML = '<p class="info-text">No graph data available</p>';
+        // No graph data available or waiting for paths to load
+        if (state.targetComponent) {
+            container.innerHTML = '<p class="info-text">Loading valid paths...</p>';
+        } else {
+            container.innerHTML = '<p class="info-text">No graph data available</p>';
+        }
         return;
     }
 
