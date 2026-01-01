@@ -27,69 +27,8 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- First Row: 3D Viewer, Results/Animation, and Knowledge Graph -->
+            <!-- First Row: Component Selection and Parameters -->
             <div class="first-row">
-                <!-- Left Column: 3D Model Viewer and Results/Animation -->
-                <div class="left-column-first-row">
-                    <!-- 3D Model Viewer -->
-                    <div class="viewer-section">
-                        <div class="section-header">
-                            <h2>3D Model Viewer</h2>
-                            <div class="viewer-zoom-controls">
-                                <button id="zoom-in-3d" class="zoom-btn" title="Zoom In">+</button>
-                                <button id="zoom-out-3d" class="zoom-btn" title="Zoom Out">−</button>
-                                <button id="reset-3d" class="zoom-btn" title="Reset View">⌂</button>
-                            </div>
-                        </div>
-                        <div class="viewer-controls">
-                            <select id="model-selector" class="select-input">
-                                <option value="">Select Model...</option>
-                                <option value="gearbox">Gearbox</option>
-                                <option value="kettle">Kettle</option>
-                            </select>
-                        </div>
-                        <div id="model-viewer" class="model-viewer"></div>
-                    </div>
-
-                    <!-- Results -->
-                    <div class="control-section results-section-top">
-                        <h2>Results</h2>
-                        <div id="results-container" class="results-container">
-                            <p class="info-text">Run algorithm to see results</p>
-                        </div>
-                    </div>
-
-                    <!-- Animation Controls -->
-                    <div class="control-section animation-section-top" id="animation-controls" style="display: none;">
-                        <h2>Animation</h2>
-                        <div class="animation-buttons">
-                            <button id="play-animation" class="btn btn-secondary">Play</button>
-                            <button id="pause-animation" class="btn btn-secondary">Pause</button>
-                            <button id="reset-animation" class="btn btn-secondary">Reset</button>
-                        </div>
-                        <div class="animation-progress">
-                            <label>Step: <span id="animation-step">0</span> / <span
-                                    id="animation-total">0</span></label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column: Knowledge Graph -->
-                <div class="graph-section">
-                    <div class="section-header">
-                        <h2>Knowledge Graph</h2>
-                        <div class="viewer-zoom-controls">
-                            <button id="zoom-in-graph" class="zoom-btn" title="Zoom In">+</button>
-                            <button id="zoom-out-graph" class="zoom-btn" title="Zoom Out">−</button>
-                            <button id="reset-graph" class="zoom-btn" title="Reset View">⌂</button>
-                        </div>
-                    </div>
-                    <div id="knowledge-graph" class="knowledge-graph"></div>
-                </div>
-            </div>
-
-            <!-- Second Row: Component Selection and Parameters -->
-            <div class="second-row">
                 <!-- Component Selection -->
                 <div class="control-section component-section">
                     <h2>Component Selection</h2>
@@ -128,6 +67,28 @@
                                     step="0.1"></label>
                         </div>
                         <button id="run-algorithm" class="btn btn-primary">Run Algorithm</button>
+                    </div>
+
+                    <!-- Results -->
+                    <div class="results-section">
+                        <h3>Results</h3>
+                        <div id="results-container" class="results-container">
+                            <p class="info-text">Run algorithm to see results</p>
+                        </div>
+                    </div>
+
+                    <!-- Animation Controls -->
+                    <div class="animation-section" id="animation-controls" style="display: none;">
+                        <h3>Animation</h3>
+                        <div class="animation-buttons">
+                            <button id="play-animation" class="btn btn-secondary">Play</button>
+                            <button id="pause-animation" class="btn btn-secondary">Pause</button>
+                            <button id="reset-animation" class="btn btn-secondary">Reset</button>
+                        </div>
+                        <div class="animation-progress">
+                            <label>Step: <span id="animation-step">0</span> / <span
+                                    id="animation-total">0</span></label>
+                        </div>
                     </div>
                 </div>
 
