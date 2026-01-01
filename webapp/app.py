@@ -86,10 +86,7 @@ FASTENER_MAP = {
     "Snap fit": 1.5,
     "Spring": 1.5,
     "Press fit": 3,
-    "None": 1,
-    # Kettle-specific fasteners
-    "Screws": 2,
-    "Wires": 1.5
+    "None": 1
 }
 
 TOOL_MAP = {
@@ -101,11 +98,7 @@ TOOL_MAP = {
     "Bearing splitter & hydraulic press": 3,
     "Heel bar": 1.5,
     "Gear puller": 2,
-    "Push": 1,
-    # Kettle-specific tools
-    "Philips screwdriver": 1.5,
-    "Hand": 1,
-    "Wire cutter": 2
+    "Push": 1
 }
 
 
@@ -536,4 +529,5 @@ def calculate_weights():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
