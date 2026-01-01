@@ -63,11 +63,17 @@ body {
     min-height: calc(100vh - 80px);
 }
 
-/* First Row: 3D Viewer and Knowledge Graph side by side */
+/* First Row: 3D Viewer, Results/Animation, and Knowledge Graph */
 .first-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 24px;
+}
+
+.left-column-first-row {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .viewer-section,
@@ -77,20 +83,20 @@ body {
     border-radius: 6px;
     padding: 16px;
     box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
 }
 
-.results-section-viewer,
-.animation-section-viewer {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-color);
+.results-section-top,
+.animation-section-top {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 16px;
+    box-shadow: var(--shadow);
 }
 
-.results-section-viewer h3,
-.animation-section-viewer h3 {
-    font-size: 14px;
+.results-section-top h2,
+.animation-section-top h2 {
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 12px;
     color: var(--text-color);
