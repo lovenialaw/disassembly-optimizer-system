@@ -1,0 +1,118 @@
+from,to
+1st Gear,1st Gear Needle Roller Bearing
+1st Gear Bearing Spacer,1st Gear Thrust Washer
+1st Gear Needle Roller Bearing,1st Gear Bearing Spacer
+1st Gear Thrust Washer,1st Gear Thrust Washer Pin
+1st Gear Thrust Washer,Output Shaft Center Bearing
+2nd Gear,2nd Gear Needle Roller Bearing
+3rd Gear,3rd Gear Needle Roller Bearing
+3rd Gear Needle Roller Bearing,Output Shaft
+5th Gear,Output Shaft Bearing Shaft Snap Ring
+5th Gear,Output Shaft Bearing Snap Ring
+5th Gear Group,5th Gear
+5th Gear Group,Output Shaft Bearing Snap Ring
+5th Gear Group,Output Shaft Center Bearing
+5th Gear Thrust Washer,Counter 5th Gear Bearing
+5th Gear Thrust Washer Pin,5th Gear Thrust Washer
+Bearing Shaft Snap Ring,Reverse Gear
+Clutch Hub Set Shaft Snap Ring,Synchromesh Shifting Key Spring
+Counter 5th Gear Bearing,Counter 5th Gear
+Counter Gear Assembly,5th Gear Thrust Washer
+Counter Gear Assembly,Counter 5th Gear
+Counter Gear Assembly,Counter 5th Gear Bearing
+Counter Gear Assembly,Counter Gear
+Counter Gear Assembly,Counter Gear Front Bearing
+Counter Gear Assembly,Counter Gear Front Bearing Snap Ring No.2
+Counter Gear Assembly,Counter Gear Rear Shaft Snap Ring
+Counter Gear Assembly,Counter Shaft Center Bearing
+Counter Gear Assembly,Gear Spline Piece No.5
+Counter Gear Front Bearing Snap Ring No.2,Counter Gear Front Bearing
+Counter Shaft,Intermediate Plate
+First Gear Stage,1st Gear
+First Gear Stage,1st Gear Bearing Spacer
+First Gear Stage,1st Gear Needle Roller Bearing
+First Gear Stage,1st Gear Thrust Washer
+First Gear Stage,1st Gear Thrust Washer Pin
+First Gear Stage,Synchronizer Ring Set No.1 Second
+Front Bearing Shaft Snap Ring,Input Shaft Front Bearing
+Gear Spline Piece No.5,Counter Gear Rear Shaft Snap Ring
+Input Shaft,Intermediate Plate
+Input Shaft Assembly,Front Bearing Shaft Snap Ring
+Input Shaft Assembly,Input Shaft
+Input Shaft Assembly,Input Shaft Front Bearing
+Input Shaft Bearing,Clutch Hub Set Shaft Snap Ring
+Input Shaft Front Bearing,Input Shaft
+Intermediate Plate,Counter Gear
+Intermediate Plate,Counter Shaft Center Bearing
+Intermediate Plate,Counter Shaft Hole
+Intermediate Plate,Input Shaft Assembly
+Intermediate Plate,Input Shaft Hole
+Intermediate Plate,Output Shaft Assembly
+Intermediate Plate,Reverse Idler Gear Shaft
+Intermediate Plate,Reverse Idler Hole
+Intermediate Plate,Synchronizer Ring No.2
+Intermediate Plate Assembly,Intermediate Plate
+Output Shaft,5th Gear Group
+Output Shaft,Rear Output Shaft Lock Set
+Output Shaft,Second Gear Stage
+Output Shaft Assembly,3rd Gear
+Output Shaft Assembly,3rd Gear Needle Roller Bearing
+Output Shaft Assembly,Clutch Hub Set Shaft Snap Ring
+Output Shaft Assembly,First Gear Stage
+Output Shaft Assembly,Input Shaft Bearing
+Output Shaft Assembly,Output Shaft
+Output Shaft Assembly,Reverse Gear Stage
+Output Shaft Assembly,Synchromesh Shifting Key Spring
+Output Shaft Assembly,Synchronizer Ring No.2
+Output Shaft Assembly,Transmission Clutch Hub No.2
+Output Shaft Assembly,Transmission Hub Sleeve No.2
+Output Shaft Bearing Shaft Snap Ring,Output Shaft Rear Bearing
+Output Shaft Bearing Shaft Snap Ring,Output Shaft Rear Bearing Retainer
+Output Shaft Rear Bearing,Rear Bearing Spacer
+Output Shaft Rear Bearing Retainer,Output Shaft Rear Snap Ring
+Output Shaft Rear Bearing Retainer,Rear Retainer Bolt 1
+Output Shaft Rear Bearing Retainer,Rear Retainer Bolt 2
+Output Shaft Rear Bearing Retainer,Rear Retainer Bolt 3
+Output Shaft Rear Bearing Retainer,Rear Retainer Bolt 4
+Output Shaft center Bearing,5th Gear
+Rear Output Shaft Lock Set,Output Shaft Bearing Shaft Snap Ring
+Rear Output Shaft Lock Set,Output Shaft Rear Bearing
+Rear Output Shaft Lock Set,Output Shaft Rear Bearing Retainer
+Rear Output Shaft Lock Set,Output Shaft Rear Snap Ring
+Rear Output Shaft Lock Set,Rear Bearing Spacer
+Rear Output Shaft Lock Set,Rear Retainer Bolt 1
+Rear Output Shaft Lock Set,Rear Retainer Bolt 2
+Rear Output Shaft Lock Set,Rear Retainer Bolt 3
+Rear Output Shaft Lock Set,Rear Retainer Bolt 4
+Reverse Gear,Synchronizer Ring Set No.1 Second
+Reverse Gear,Transmission Clutch Hub No.2 (2)
+Reverse Gear Stage,Bearing Shaft Snap Ring
+Reverse Gear Stage,Reverse Gear
+Reverse Idler Gear Assembly,Reverse Idler Gear
+Reverse Idler Gear Assembly,Reverse Idler Gear Shaft
+Reverse Idler Gear Shaft,Intermediate Plate
+Reverse Idler Gear Shaft,Reverse Idler Gear
+Second Gear Stage,2nd Gear
+Second Gear Stage,2nd Gear Needle Roller Bearing
+Second Gear Stage,Synchronizer Ring Set No.1
+Second Gear Stage,Transmission Clutch Hub No.2 (2)
+Synchromesh Shifting Key Spring,Transmission Clutch Hub No.2
+Synchromesh Shifting Key Spring,Transmission Hub Sleeve No.2
+Synchronizer Ring No.2,3rd Gear
+Synchronizer Ring No.2,Input Shaft Bearing
+Synchronizer Ring Outer No.3,Gear Spline Piece No.5
+Synchronizer Ring Set No.1,1st Gear
+Synchronizer Ring Set No.1,2nd Gear
+Synchronizer Ring Set No.1,Bearing Shaft Snap Ring
+Transmission Case,Counter Gear Front Bearing Snap Ring No.2
+Transmission Case,Front Bearing Shaft Snap Ring
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 1
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 1.001
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 2
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 2.001
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 3
+Transmission Clutch Hub No.2,Synchromesh Shifting Key 3.001
+Transmission Clutch Hub No.2 (2),Synchromesh Shifting Key Spring2 1
+Transmission Clutch Hub No.2 (2),Synchromesh Shifting Key Spring2 2
+Transmission Clutch Hub No.2 (2),Synchromesh Shifting Key Spring2 3
+Transmission Clutch Hub No.2 (2),Synchronizer Ring Set No.1

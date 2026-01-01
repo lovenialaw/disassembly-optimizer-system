@@ -26,56 +26,60 @@ metadata = None
 G_topology = None
 
 
-def build_graph_from_metadata(metadata_data):
-    """Build topology graph from metadata JSON"""
+def build_graph_from_csv(csv_path):
+    """Build topology graph from CSV file (gear_edges.csv or edges.csv)"""
     G = nx.DiGraph()
-
-    for item in metadata_data:
-        component = item['name']
-        G.add_node(component)
-
-        # Add blocked_by relationships
-        if 'blocked_by' in item.get('properties', {}):
-            blockers = item['properties']['blocked_by']
-            # Handle both list of strings and empty arrays
-            if isinstance(blockers, list):
-                for blocker in blockers:
-                    # Skip empty strings, empty lists, None, and non-string values
-                    if isinstance(blocker, str) and blocker != '':
-                        G.add_edge(blocker, component)
-
-        # Add attached_to relationships (also creates blocked_by)
-        if 'attached_to' in item.get('properties', {}):
-            attached_to = item['properties']['attached_to']
-            if attached_to and attached_to != component and attached_to != []:
-                G.add_edge(attached_to, component)
-
-    return G
-
-
-def load_metadata(model_name='gearbox'):
-    """Load metadata for the specified model"""
-    global metadata, G_topology, current_model
-    metadata_file = f'{model_name}_metadata.json'
-    metadata_path = os.path.join(_script_dir, metadata_file)
-
+    
     try:
-        with open(metadata_path, 'r') as f:
-            metadata = json.load(f)
-        G_topology = build_graph_from_metadata(metadata)
+        edges_df = pd.read_csv(csv_path)
+        edges_df["from"] = edges_df["from"].astype(str).str.strip()
+        edges_df["to"] = edges_df["to"].astype(str).str.strip()
+        
+        for _, row in edges_df.iterrows():
+            from_node = row["from"]
+            to_node = row["to"]
+            if from_node and to_node:  # Skip empty values
+                G.add_edge(from_node, to_node)
+        
+        return G
+    except Exception as e:
+        print(f"Error loading CSV {csv_path}: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def load_model(model_name='gearbox'):
+    """Load graph from CSV file for the specified model"""
+    global G_topology, current_model
+    
+    # Map model names to CSV files
+    csv_files = {
+        'gearbox': 'gear_edges.csv',
+        'kettle': 'kettle_edges.csv'
+    }
+    
+    if model_name not in csv_files:
+        return False
+    
+    csv_file = csv_files[model_name]
+    csv_path = os.path.join(_script_dir, csv_file)
+    
+    try:
+        G_topology = build_graph_from_csv(csv_path)
+        if G_topology is None:
+            return False
         current_model = model_name
         return True
-    except FileNotFoundError:
-        return False
     except Exception as e:
-        print(f"Error loading metadata for {model_name}: {str(e)}")
+        print(f"Error loading model {model_name}: {str(e)}")
         import traceback
         traceback.print_exc()
         return False
 
 
-# Load default metadata (gearbox)
-load_metadata('gearbox')
+# Load default model (gearbox)
+load_model('gearbox')
 
 # Mappings
 SAFETY_MAP = {"Low": 1, "Medium": 2, "High": 3}
@@ -122,10 +126,13 @@ def index():
 def get_models():
     """Get list of available models"""
     models = []
-    for model in ['gearbox', 'kettle']:
-        metadata_file = f'{model}_metadata.json'
-        metadata_path = os.path.join(_script_dir, metadata_file)
-        if os.path.exists(metadata_path):
+    csv_files = {
+        'gearbox': 'gear_edges.csv',
+        'kettle': 'kettle_edges.csv'
+    }
+    for model, csv_file in csv_files.items():
+        csv_path = os.path.join(_script_dir, csv_file)
+        if os.path.exists(csv_path):
             models.append(model)
     return jsonify(models)
 
@@ -135,7 +142,7 @@ def set_model(model_name):
     """Switch to a different model"""
     global current_model
     try:
-        if load_metadata(model_name):
+        if load_model(model_name):
             current_model = model_name
             return jsonify({'success': True, 'model': model_name})
         else:
@@ -161,6 +168,40 @@ def get_graph():
     nodes = [{'id': node, 'label': node} for node in G_topology.nodes]
     edges = [{'from': u, 'to': v} for u, v in G_topology.edges]
     return jsonify({'nodes': nodes, 'edges': edges})
+
+@app.route('/api/paths/<target>', methods=['GET'])
+def get_valid_paths(target):
+    """Get all valid disassembly paths to the target component"""
+    if G_topology is None:
+        return jsonify({'error': 'No model loaded'}), 500
+    
+    if target not in G_topology.nodes:
+        return jsonify({'error': f'Target {target} not found'}), 400
+    
+    # Find start nodes (components with no dependencies)
+    start_nodes = [n for n in G_topology.nodes if G_topology.in_degree(n) == 0]
+    if not start_nodes:
+        start_nodes = list(G_topology.nodes)
+    
+    # Enumerate all valid paths (like in dijikstra.py)
+    all_paths = []
+    for start in start_nodes:
+        try:
+            all_paths.extend(nx.all_simple_paths(G_topology, start, target))
+        except nx.NetworkXNoPath:
+            pass
+    
+    if not all_paths:
+        return jsonify({'error': f'No valid paths found to {target}'}), 400
+    
+    # Convert paths to list format for JSON
+    paths_list = [list(path) for path in all_paths]
+    
+    return jsonify({
+        'paths': paths_list,
+        'count': len(paths_list),
+        'target': target
+    })
 
 
 @app.route('/api/parameters/options', methods=['GET'])
@@ -295,11 +336,11 @@ def run_dijkstra():
     if target not in G_topology.nodes:
         return jsonify({'error': f'Target {target} not found'}), 400
 
-    # Build weighted graph
+    # Build weighted graph (like in dijikstra.py)
     G = nx.DiGraph()
     G.add_nodes_from(G_topology.nodes)
 
-    # Handle edge weights (can be tuple keys as strings or list keys)
+    # Handle edge weights from user input (like in dijikstra.py)
     for key, w in edge_weights_data.items():
         if isinstance(key, list) or isinstance(key, tuple):
             u, v = key
@@ -309,135 +350,32 @@ def run_dijkstra():
             continue
         G.add_edge(u, v, weight=w)
 
-    # Add default weights for edges in topology that don't have weights
+    # Add default weights for edges in topology that don't have user-provided weights
     for u, v in G_topology.edges():
         if not G.has_edge(u, v):
             G.add_edge(u, v, weight=5.0)  # Default weight
 
-    # Find all ancestors of the target (components that must be removed before target)
-    # This ensures we include ALL prerequisite components
-    ancestors = set()
-    if target in G_topology:
-        # Find all nodes that have a path to the target (they must be removed first)
-        for node in G_topology.nodes():
-            if node != target and nx.has_path(G_topology, node, target):
-                ancestors.add(node)
-    
     # Find start nodes (components with no dependencies)
     start_nodes = [n for n in G_topology.nodes if G_topology.in_degree(n) == 0]
     if not start_nodes:
         start_nodes = list(G_topology.nodes)
 
-    # Build a complete path that includes all ancestors
-    # Create subgraph with all ancestors and target
-    all_required_nodes = ancestors | {target}
-    
-    # Add start nodes that can reach the target
-    reachable_starts = []
+    # Run Dijkstra from all start nodes to target (like in dijikstra.py)
+    best_path = None
+    best_cost = float("inf")
+
     for start in start_nodes:
-        if start in G_topology and nx.has_path(G_topology, start, target):
-            reachable_starts.append(start)
-            all_required_nodes.add(start)
-    
-    if not reachable_starts:
-        return jsonify({'error': 'No valid path found. The target component cannot be reached from any start node.'}), 400
-    
-    # Create subgraph with all required nodes
-    subgraph = G_topology.subgraph(all_required_nodes)
-    
-    # Use topological sort to get correct order (all ancestors before target)
-    try:
-        topo_order = list(nx.topological_sort(subgraph))
-        # Ensure target is at the end
-        if target in topo_order:
-            topo_order.remove(target)
-            topo_order.append(target)
-        
-        # Find the best start node (one that appears earliest in topological order)
-        best_start = None
-        best_start_idx = len(topo_order)
-        for start in reachable_starts:
-            if start in topo_order:
-                idx = topo_order.index(start)
-                if idx < best_start_idx:
-                    best_start_idx = idx
-                    best_start = start
-        
-        if best_start:
-            # Build path from best_start through all ancestors to target
-            start_idx = topo_order.index(best_start)
-            complete_path = topo_order[start_idx:]
-        else:
-            # If start not in topo_order, find shortest path from any start, then merge
-            best_path_dijkstra = None
-            best_cost_dijkstra = float("inf")
-            for start in reachable_starts:
-                try:
-                    if nx.has_path(G, start, target):
-                        path = nx.dijkstra_path(G, start, target, weight="weight")
-                        cost = nx.dijkstra_path_length(G, start, target, weight="weight")
-                        if cost < best_cost_dijkstra:
-                            best_cost_dijkstra = cost
-                            best_path_dijkstra = path
-                except (nx.NetworkXNoPath, nx.NodeNotFound):
-                    pass
-            
-            if best_path_dijkstra:
-                # Merge dijkstra path with topological order to include all ancestors
-                seen = set(best_path_dijkstra)
-                complete_path = list(best_path_dijkstra)
-                # Add missing ancestors in correct topological order
-                for node in topo_order:
-                    if node not in seen and node in ancestors:
-                        # Insert in correct position (before target)
-                        if target in complete_path:
-                            target_idx = complete_path.index(target)
-                            complete_path.insert(target_idx, node)
-                        else:
-                            complete_path.append(node)
-                        seen.add(node)
-            else:
-                complete_path = topo_order
-        
-        # Calculate cost for complete path
-        complete_cost = 0
-        for i in range(len(complete_path) - 1):
-            if G.has_edge(complete_path[i], complete_path[i+1]):
-                complete_cost += G[complete_path[i]][complete_path[i+1]]["weight"]
-            elif G_topology.has_edge(complete_path[i], complete_path[i+1]):
-                # Edge exists in topology but not in weighted graph, use default
-                complete_cost += 5.0
-            else:
-                # Invalid edge, try to find intermediate path
-                try:
-                    intermediate_path = nx.shortest_path(G_topology, complete_path[i], complete_path[i+1])
-                    for j in range(len(intermediate_path) - 1):
-                        if G.has_edge(intermediate_path[j], intermediate_path[j+1]):
-                            complete_cost += G[intermediate_path[j]][intermediate_path[j+1]]["weight"]
-                        else:
-                            complete_cost += 5.0
-                except (nx.NetworkXNoPath):
-                    complete_cost += 10.0  # Penalty for missing edge
-        
-        best_path = complete_path
-        best_cost = complete_cost
-        
-    except (nx.NetworkXError, ValueError) as e:
-        # If topological sort fails, fall back to Dijkstra
-        best_path = None
-        best_cost = float("inf")
-        for start in reachable_starts:
-            if start not in G:
-                continue
-            try:
-                if nx.has_path(G, start, target):
-                    path = nx.dijkstra_path(G, start, target, weight="weight")
-                    cost = nx.dijkstra_path_length(G, start, target, weight="weight")
-                    if cost < best_cost:
-                        best_cost = cost
-                        best_path = path
-            except (nx.NetworkXNoPath, nx.NodeNotFound):
-                pass
+        if start not in G:
+            continue
+        try:
+            if nx.has_path(G, start, target):
+                path = nx.dijkstra_path(G, start, target, weight="weight")
+                cost = nx.dijkstra_path_length(G, start, target, weight="weight")
+                if cost < best_cost:
+                    best_cost = cost
+                    best_path = path
+        except (nx.NetworkXNoPath, nx.NodeNotFound):
+            pass
 
     if not best_path:
         return jsonify({'error': 'No valid path found. Please check your component selection and parameters.'}), 400
